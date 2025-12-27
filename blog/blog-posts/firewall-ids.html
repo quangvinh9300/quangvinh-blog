@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Firewall & IDS/IPS - Blog Bùi Quang Vinh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #000; --secondary: #fff; --accent: #00d4ff; --text-dark: #333; --text-light: #666; --bg-light: #f9f9f9; }
+        body { font-family: 'Segoe UI'; line-height: 1.8; color: var(--text-dark); }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.95); padding: 1rem 2rem; display: flex; justify-content: space-between; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--secondary); text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+        .article-container { max-width: 900px; margin: 0 auto; padding: 80px 2rem 4rem; }
+        .article-header { margin-bottom: 3rem; border-bottom: 3px solid var(--accent); padding-bottom: 2rem; }
+        .article-title { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .article-meta { display: flex; gap: 2rem; flex-wrap: wrap; color: var(--text-light); font-size: 0.95rem; }
+        .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .tag { display: inline-block; background: var(--accent); color: var(--primary); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .article-content { line-height: 2; }
+        .article-content h2 { font-size: 1.8rem; color: var(--primary); margin: 2rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        .article-content h3 { font-size: 1.3rem; color: var(--primary); margin: 1.5rem 0 0.8rem; }
+        .article-content p { margin-bottom: 1.5rem; text-align: justify; }
+        .article-content ul { margin: 1.5rem 0 1.5rem 2rem; }
+        .article-content li { margin-bottom: 0.8rem; }
+        .highlight { background: rgba(0,212,255,0.1); padding: 0.2rem 0.5rem; color: var(--accent); }
+        .info-box { background: rgba(0,212,255,0.1); border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0; border-radius: 5px; }
+        .article-footer { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--accent); }
+        .author-info { background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+        .navigation { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+        .nav-button { display: inline-block; background: var(--primary); color: var(--secondary); padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 5px; }
+        .nav-button:hover { background: var(--secondary); color: var(--primary); }
+        .nav-button.secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        footer { background: var(--primary); color: var(--secondary); text-align: center; padding: 2rem; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="../../index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <div class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">🛡️ Firewall & Intrusion Detection: Phòng chống tấn công mạng</h1>
+                <img src="../../images/firewall-topic.svg" alt="Firewall & IDS/IPS" style="width: 100%; max-width: 500px; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,212,255,0.3);">
+                <div class="article-meta">
+                    <span>📅 08/11/2024</span>
+                    <span>✍️ Bùi Quang Vinh</span>
+                    <span>⏱️ 9 phút đọc</span>
+                </div>
+                <div class="article-tags">
+                    <span class="tag">Firewall</span>
+                    <span class="tag">IDS/IPS</span>
+                    <span class="tag">Network Security</span>
+                    <span class="tag">Threat Prevention</span>
+                </div>
+            </header>
+
+            <section class="article-content">
+                <h2>Giới thiệu: Phòng chống các cuộc tấn công mạng</h2>
+                <p>
+                    <span class="highlight">Firewall</span> và <span class="highlight">IDS/IPS</span> 
+                    là những thành phần cơ bản của bất kỳ hệ thống bảo mật mạng nào, đóng vai trò quan trọng 
+                    trong việc phòng chống các cuộc tấn công từ internet. Trong khi firewall kiểm soát lưu lượng 
+                    dựa trên các quy tắc được xác định trước, IDS/IPS đi sâu hơn, phân tích traffic để phát hiện 
+                    các mối đe dọa đã biết và chưa biết.
+                </p>
+
+                <h2>Firewall: Tường lửa mạng</h2>
+                <p>
+                    Firewall là một thiết bị hoặc phần mềm kiểm soát lưu lượng mạng dựa trên các quy tắc 
+                    bảo mật được xác định trước. Nó hoạt động như một "gatekeeper" của mạng, quyết định 
+                    traffic nào được phép đi qua và traffic nào bị chặn.
+                </p>
+
+                <h3>Các loại Firewall:</h3>
+                
+                <h4>1. Stateless Firewall (Packet-filter Firewall)</h4>
+                <p>
+                    Kiểm tra từng gói mạng độc lập, không theo dõi trạng thái của kết nối.
+                </p>
+                <ul>
+                    <li>✅ Nhanh, hiệu quả</li>
+                    <li>❌ Dễ bị bypass, không thể theo dõi kết nối</li>
+                    <li>📍 Thường được sử dụng ở edge networks</li>
+                </ul>
+
+                <h4>2. Stateful Firewall</h4>
+                <p>
+                    Theo dõi trạng thái của các kết nối TCP/UDP. Nó nhớ các kết nối được chấp nhận 
+                    và cho phép traffic của các kết nối đó qua tường lửa.
+                </p>
+                <ul>
+                    <li>✅ Bảo mật cao hơn, có thể theo dõi session</li>
+                    <li>⚠️ Tiêu tốn tài nguyên hơn</li>
+                    <li>📍 Standard choice cho hầu hết các tổ chức</li>
+                </ul>
+
+                <h4>3. Next-Generation Firewall (NGFW)</h4>
+                <p>
+                    Kết hợp firewall truyền thống với các tính năng advanced như Deep Packet Inspection (DPI), 
+                    IPS, URL filtering, application-level inspection, v.v.
+                </p>
+                <ul>
+                    <li>✅ Bảo mật cao nhất, có thể phát hiện attacks ở application layer</li>
+                    <li>⚠️ Phức tạp, đắt tiền, tiêu tốn tài nguyên</li>
+                    <li>📍 Enterprise firewall solutions</li>
+                    <li>🔧 Các sản phẩm phổ biến: Palo Alto Networks, Cisco ASA, FortiGate, Juniper SRX</li>
+                </ul>
+
+                <h4>4. Web Application Firewall (WAF)</h4>
+                <p>
+                    Bảo vệ ứng dụng web khỏi các cuộc tấn công ở application layer 
+                    (ví dụ: SQL injection, XSS, CSRF).
+                </p>
+                <ul>
+                    <li>✅ Bảo vệ cụ thể cho web applications</li>
+                    <li>📍 Các sản phẩm: ModSecurity, Cloudflare WAF, AWS WAF, Imperva</li>
+                </ul>
+
+                <h2>Firewall Rulesets & Best Practices</h2>
+                
+                <h3>Các nguyên tắc cơ bản cho Firewall Rules:</h3>
+                <ul>
+                    <li><strong>Least Privilege:</strong> Mặc định từ chối (deny), chỉ cho phép traffic cụ thể được chấp nhận</li>
+                    <li><strong>Specificity:</strong> Rules càng cụ thể càng tốt</li>
+                    <li><strong>Order Matters:</strong> Rules được xử lý từ trên xuống dưới</li>
+                    <li><strong>Document Everything:</strong> Mỗi rule cần có comment giải thích mục đích</li>
+                </ul>
+
+                <h3>Ví dụ về Firewall Rules:</h3>
+                <div class="info-box">
+                    <strong>Rule 1:</strong> Allow inbound traffic to port 443 (HTTPS) from any source to web servers<br>
+                    <strong>Rule 2:</strong> Allow inbound traffic to port 22 (SSH) from admin network only<br>
+                    <strong>Rule 3:</strong> Allow outbound traffic to specific DNS servers only<br>
+                    <strong>Rule 4:</strong> Deny all other inbound/outbound traffic (default deny policy)
+                </div>
+
+                <h3>Best Practices cho Firewall Management:</h3>
+                <ul>
+                    <li>📝 Maintain detailed documentation của tất cả firewall rules</li>
+                    <li>🔄 Regular review và cleanup các unused rules</li>
+                    <li>⚖️ Balance giữa security và performance</li>
+                    <li>🧪 Test rules trước khi deploy to production</li>
+                    <li>📊 Monitor firewall logs regularly</li>
+                    <li>🔐 Enable encryption cho sensitive communications (TLS/SSL)</li>
+                    <li>🛡️ Implement ingress/egress filtering</li>
+                </ul>
+
+                <h2>IDS vs IPS: Phát hiện vs Phòng chống</h2>
+                
+                <h3>IDS (Intrusion Detection System):</h3>
+                <ul>
+                    <li>📊 Phát hiện các hoạt động đáng ngờ</li>
+                    <li>🔔 Gửi cảnh báo khi phát hiện tấn công</li>
+                    <li>❌ Không chặn traffic</li>
+                    <li>📍 Đặt ở vị trí giám sát (mirror port, SPAN port)</li>
+                    <li>⏰ Có độ trễ nhất định (offline analysis)</li>
+                </ul>
+
+                <h3>IPS (Intrusion Prevention System):</h3>
+                <ul>
+                    <li>🛡️ Phát hiện VÀ chặn các cuộc tấn công</li>
+                    <li>⚡ Tác động trực tiếp vào traffic</li>
+                    <li>✅ Có thể chặn/drop các gói mạng độc hại</li>
+                    <li>📍 Đặt inline giữa mạng nội bộ và internet</li>
+                    <li>⚠️ Có thể block legitimate traffic nếu cấu hình sai</li>
+                </ul>
+
+                <h2>Detection Methods: Các phương pháp Phát hiện</h2>
+                
+                <h3>1. Signature-Based Detection</h3>
+                <p>
+                    So sánh traffic với cơ sở dữ liệu các known attack signatures. 
+                    Mỗi attack được biểu diễn bằng một pattern hoặc signature.
+                </p>
+                <ul>
+                    <li>✅ Hiệu quả với các tấn công đã biết</li>
+                    <li>✅ Ít false positives</li>
+                    <li>❌ Không phát hiện được zero-day attacks</li>
+                    <li>❌ Cần cập nhật signatures thường xuyên</li>
+                </ul>
+
+                <h3>2. Anomaly-Based Detection</h3>
+                <p>
+                    Phát hiện các hoạt động bất thường bằng cách so sánh với baseline bình thường. 
+                    Dựa trên thống kê và machine learning.
+                </p>
+                <ul>
+                    <li>✅ Có thể phát hiện unknown threats (zero-days)</li>
+                    <li>❌ Dễ sinh false positives</li>
+                    <li>❌ Cần training period để xác định baseline</li>
+                </ul>
+
+                <h3>3. Behavior-Based Detection</h3>
+                <p>
+                    Phát hiện các hoạt động dựa trên hành vi của attacks. 
+                    Ví dụ: phát hiện brute force attempts bằng cách theo dõi số lượng failed logins.
+                </p>
+
+                <h2>IDS/IPS Tools phổ biến</h2>
+                
+                <h3>Open-Source Solutions:</h3>
+                <ul>
+                    <li><strong>Zeek (formerly Bro):</strong> Network Security Monitoring framework</li>
+                    <li><strong>Suricata:</strong> Free and Open Source IDS/IPS</li>
+                    <li><strong>Snort:</strong> Classic open-source IDS</li>
+                </ul>
+
+                <h3>Commercial Solutions:</h3>
+                <ul>
+                    <li><strong>Palo Alto Networks IPS:</strong> Enterprise-grade IPS</li>
+                    <li><strong>Cisco IDS/IPS:</strong> Integrated với Cisco firewalls</li>
+                    <li><strong>Fortinet FortiGate IPS:</strong> Thường được integrated vào FortiGate firewalls</li>
+                    <li><strong>McAfee Network Security Platform:</strong> Advanced threat detection</li>
+                </ul>
+
+                <h2>Network Segmentation & DMZ Architecture</h2>
+                
+                <h3>Network Segmentation (Phân đoạn mạng)</h3>
+                <p>
+                    Chia mạng thành các phân đoạn nhỏ hơn (subnets) để:
+                </p>
+                <ul>
+                    <li>Giới hạn phạm vi của các cuộc tấn công</li>
+                    <li>Kiểm soát traffic giữa các phân đoạn</li>
+                    <li>Tạo multiple layers of defense</li>
+                </ul>
+
+                <h3>DMZ (De-militarized Zone)</h3>
+                <p>
+                    Một mạng con được cách ly, nằm giữa internet và mạng nội bộ. 
+                    Các public-facing servers (web servers, mail servers) được đặt trong DMZ.
+                </p>
+                <div class="info-box">
+                    <strong>DMZ Architecture:</strong><br>
+                    Internet ← Outer Firewall ← DMZ ← Inner Firewall ← Internal Network
+                </div>
+
+                <h3>Security Policies & Access Control</h3>
+                <p>
+                    Các chính sách bảo mật định nghĩa các quy tắc kiểm soát truy cập và traffic flow.
+                </p>
+                <ul>
+                    <li><strong>Ingress Filtering:</strong> Lọc traffic đi vào</li>
+                    <li><strong>Egress Filtering:</strong> Lọc traffic đi ra</li>
+                    <li><strong>URPF (Unicast Reverse Path Forwarding):</strong> Phòng chống spoofed packets</li>
+                </ul>
+
+                <h2>Best Practices tổng hợp</h2>
+                <ul>
+                    <li>🔒 Cấu hình firewall rules theo nguyên tắc least privilege</li>
+                    <li>📝 Maintain detailed firewall rule documentation</li>
+                    <li>🔄 Regular review và update firewall rules</li>
+                    <li>⚖️ Balance security và performance</li>
+                    <li>🧪 Test rules trước khi deploy to production</li>
+                    <li>📊 Monitor firewall/IPS logs regularly</li>
+                    <li>🔐 Enable encryption cho sensitive communications (TLS/SSL)</li>
+                    <li>🛡️ Implement defense in depth (multiple layers)</li>
+                    <li>🔔 Setup alerts cho suspicious activities</li>
+                    <li>📈 Regularly update IDS/IPS signatures và threat intelligence</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 Tip:</strong> NGFW các công cụ như Palo Alto Networks, Cisco ASA, FortiGate 
+                    kết hợp firewall, IPS, DPI, URL filtering, và nhiều tính năng khác. 
+                    Chúng cung cấp một giải pháp tổng hợp cho network security.
+                </div>
+
+                <h2>Challenges trong Firewall & IDS/IPS Deployment</h2>
+                
+                <h3>1. Performance vs Security Trade-off</h3>
+                <p>
+                    Inspection sâu (Deep Packet Inspection) có thể ảnh hưởng đến hiệu suất mạng. 
+                    Cần cân bằng giữa bảo mật và tốc độ.
+                </p>
+
+                <h3>2. Encrypted Traffic</h3>
+                <p>
+                    Hầu hết traffic ngày nay được mã hóa (HTTPS, TLS). 
+                    Firewalls và IDS/IPS không thể inspect nội dung của encrypted traffic.
+                </p>
+
+                <h3>3. High-Speed Networks</h3>
+                <p>
+                    Trên các mạng tốc độ cao (10Gbps+), việc phân tích tất cả traffic trở nên khó khăn.
+                </p>
+
+                <h3>4. Evasion Techniques</h3>
+                <p>
+                    Attackers liên tục phát triển các kỹ thuật để bypass firewalls và IDS/IPS 
+                    (ví dụ: polymorphic malware, encrypted attacks).
+                </p>
+
+                <h2>Kết luận</h2>
+                <p>
+                    Firewall và IDS/IPS là các công cụ bắt buộc trong bảo mật mạng hiện đại. 
+                    Bằng cách kết hợp cả hai, và sử dụng defense in depth strategy, 
+                    bạn có thể phòng chống hầu hết các cuộc tấn công mạng thông thường. 
+                    Tuy nhiên, không có giải pháp bảo mật nào là 100% hiệu quả. 
+                    Việc giám sát liên tục, update rules, và phát hiển mối đe dọa mới là quan trọng để 
+                    duy trì một posture bảo mật mạnh mẽ.
+                </p>
+            </section>
+                    <li>🛡️ Phát hiện VÀ chặn các cuộc tấn công</li>
+                    <li>⚡ Tác động trực tiếp vào traffic</li>
+                    <li>✅ Có thể chặn/drop các gói mạng độc hại</li>
+                    <li>📍 Đặt inline giữa mạng nội bộ và internet</li>
+                </ul>
+
+                <h2>Detection Methods</h2>
+
+                <h3>Signature-Based Detection:</h3>
+                <p>
+                    So sánh traffic với cơ sở dữ liệu các known attack signatures. 
+                    Hiệu quả với các tấn công đã biết nhưng không phát hiện được zero-day attacks.
+                </p>
+
+                <h3>Anomaly-Based Detection:</h3>
+                <p>
+                    Phát hiện các hoạt động bất thường bằng cách so sánh với baseline bình thường. 
+                    Có thể phát hiện unknown threats nhưng dễ sinh false positives.
+                </p>
+
+                <h2>Best Practices</h2>
+                <ul>
+                    <li>🔒 Cấu hình firewall rules theo nguyên tắc least privilege</li>
+                    <li>📝 Maintain detailed firewall rule documentation</li>
+                    <li>🔄 Regular review và update firewall rules</li>
+                    <li>⚖️ Balance security và performance</li>
+                    <li>🧪 Test rules trước khi deploy to production</li>
+                    <li>📊 Monitor firewall/IPS logs regularly</li>
+                    <li>🔐 Enable encryption for sensitive communications</li>
+                </ul>
+
+                <div class="info-box">
+                    <strong>💡 Tip:</strong> NGFW các công cụ như Palo Alto Networks, Cisco ASA, FortiGate 
+                    kết hợp firewall, IPS, DPI, URL filtering, và nhiều tính năng khác.
+                </div>
+
+                <h2>Kết luận</h2>
+                <p>
+                    Firewall và IDS/IPS là các công cụ bắt buộc trong bảo mật mạng. 
+                    Bằng cách kết hợp cả hai, bạn có thể phòng chống hầu hết các cuộc tấn công mạng thông thường.
+                </p>
+            </section>
+
+            <footer class="article-footer">
+                <div class="author-info">
+                    <h4>👤 Về Tác Giả</h4>
+                    <p><strong>Bùi Quang Vinh</strong> - Network Security Specialist</p>
+                </div>
+                <div class="navigation">
+                    <a href="../../blog.html" class="nav-button secondary">← Quay lại Blog</a>
+                    <a href="cryptography.html" class="nav-button">Bài viết tiếp theo →</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../../index.html">Trang Chủ</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../index.html#contact">Liên Hệ</a>
+            </div>
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

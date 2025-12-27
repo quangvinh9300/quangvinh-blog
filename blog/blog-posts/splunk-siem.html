@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splunk SIEM: Từ cài đặt đến phân tích - Blog Bùi Quang Vinh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #000; --secondary: #fff; --accent: #00d4ff; --text-dark: #333; --text-light: #666; --bg-light: #f9f9f9; }
+        body { font-family: 'Segoe UI'; line-height: 1.8; color: var(--text-dark); }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.95); padding: 1rem 2rem; display: flex; justify-content: space-between; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--secondary); text-decoration: none; transition: color 0.3s; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+        .article-container { max-width: 900px; margin: 0 auto; padding: 80px 2rem 4rem; }
+        .article-header { margin-bottom: 3rem; border-bottom: 3px solid var(--accent); padding-bottom: 2rem; }
+        .article-title { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .article-meta { display: flex; gap: 2rem; flex-wrap: wrap; color: var(--text-light); font-size: 0.95rem; margin-bottom: 1rem; }
+        .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .tag { display: inline-block; background: var(--accent); color: var(--primary); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .article-content { line-height: 2; }
+        .article-content h2 { font-size: 1.8rem; color: var(--primary); margin: 2rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        .article-content h3 { font-size: 1.3rem; color: var(--primary); margin: 1.5rem 0 0.8rem; }
+        .article-content p { margin-bottom: 1.5rem; text-align: justify; }
+        .article-content ul { margin: 1.5rem 0 1.5rem 2rem; }
+        .article-content li { margin-bottom: 0.8rem; }
+        .highlight { background: rgba(0,212,255,0.1); padding: 0.2rem 0.5rem; border-radius: 3px; color: var(--accent); }
+        .info-box { background: rgba(0,212,255,0.1); border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0; border-radius: 5px; }
+        .toc { background: var(--bg-light); border: 2px solid var(--accent); border-radius: 8px; padding: 1.5rem; margin: 2rem 0; }
+        .toc h3 { color: var(--primary); margin-bottom: 1rem; font-size: 1.1rem; }
+        .toc ul { list-style: none; margin: 0; }
+        .toc a { color: var(--accent); text-decoration: none; }
+        .article-footer { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--accent); }
+        .author-info { background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+        .navigation { display: flex; justify-content: space-between; gap: 2rem; margin-top: 2rem; flex-wrap: wrap; }
+        .nav-button { display: inline-block; background: var(--primary); color: var(--secondary); padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 5px; transition: all 0.3s; border: 2px solid var(--primary); }
+        .nav-button:hover { background: var(--secondary); color: var(--primary); }
+        .nav-button.secondary { background: transparent; color: var(--primary); border-color: var(--primary); }
+        .nav-button.secondary:hover { background: var(--primary); color: var(--secondary); }
+        footer { background: var(--primary); color: var(--secondary); text-align: center; padding: 2rem; border-top: 1px solid var(--accent); margin-top: 4rem; }
+        .footer-links { display: flex; justify-content: center; gap: 2rem; margin-bottom: 1rem; flex-wrap: wrap; }
+        .footer-links a { color: var(--secondary); text-decoration: none; }
+        .footer-links a:hover { color: var(--accent); }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="../../index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <div class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">📊 Splunk SIEM: Từ cài đặt đến phân tích sự kiện</h1>
+                <img src="../../images/splunk-topic.svg" alt="Splunk SIEM" style="width: 100%; max-width: 500px; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,212,255,0.3);">
+                <div class="article-meta">
+                    <span>📅 28/11/2024</span>
+                    <span>✍️ Bùi Quang Vinh</span>
+                    <span>⏱️ 12 phút đọc</span>
+                </div>
+                <div class="article-tags">
+                    <span class="tag">Splunk</span>
+                    <span class="tag">SIEM</span>
+                    <span class="tag">Log Analysis</span>
+                    <span class="tag">Security Monitoring</span>
+                </div>
+            </header>
+
+            <div class="toc">
+                <h3>📑 Mục Lục</h3>
+                <ul>
+                    <li><a href="#intro">Giới thiệu Splunk</a></li>
+                    <li><a href="#installation">Cài đặt và Cấu hình</a></li>
+                    <li><a href="#data-input">Ingestion & Data Input</a></li>
+                    <li><a href="#spl">Splunk Query Language (SPL)</a></li>
+                    <li><a href="#dashboards">Dashboards & Visualizations</a></li>
+                    <li><a href="#alerts">Alerts & Playbooks</a></li>
+                    <li><a href="#best-practices">Best Practices</a></li>
+                </ul>
+            </div>
+
+            <section class="article-content">
+                <h2 id="intro">Giới thiệu Splunk và SIEM</h2>
+                <p>
+                    <span class="highlight">Splunk</span> là một nền tảng SIEM (Security Information and Event Management) 
+                    hàng đầu cho phép tập trung hóa, phân tích, và trực quan hóa dữ liệu từ hàng trăm sources khác nhau. 
+                    Trong bối cảnh an ninh mạng hiện đại, mỗi tổ chức phải xử lý hàng triệu sự kiện bảo mật mỗi ngày. 
+                    Splunk giúp các tổ chức tập trung tất cả dữ liệu log này vào một nơi duy nhất, sau đó sử dụng các 
+                    công cụ phân tích mạnh mẽ để phát hiện các mối đe dọa.
+                </p>
+
+                <h3>Lịch sử và Tầm quan trọng của Splunk</h3>
+                <p>
+                    Splunk được thành lập vào năm 2003 với mục tiêu giúp các tổ chức truy cập, hình dung, 
+                    và thực hiện hành động trên dữ liệu máy. Nó đã phát triển thành một nền tảng toàn diện 
+                    cho quản lý thông tin bảo mật và sự kiện. Hôm nay, Splunk được sử dụng bởi hơn 12,000 tổ chức 
+                    trên toàn thế giới.
+                </p>
+
+                <h2 id="installation">Cài đặt, Cấu hình và Kiến trúc Splunk</h2>
+                
+                <h3>Các thành phần chính của Splunk:</h3>
+                <ul>
+                    <li><strong>Splunk Enterprise:</strong> Server chính xử lý data indexing và cung cấp giao diện web</li>
+                    <li><strong>Splunk Forwarder:</strong> Agent nhẹ được cài đặt trên các máy chủ nguồn để thu thập và gửi logs</li>
+                    <li><strong>Splunk Web:</strong> Giao diện web để quản lý, tìm kiếm, và tạo báo cáo</li>
+                    <li><strong>Splunk Search Head:</strong> Chịu trách nhiệm xử lý tìm kiếm và hiển thị kết quả</li>
+                    <li><strong>Splunk Indexer:</strong> Lưu trữ và tạo chỉ mục dữ liệu</li>
+                </ul>
+
+                <h3>Kiến trúc Splunk</h3>
+                <p>
+                    Splunk sử dụng kiến trúc phân tán gồm ba lớp chính:
+                </p>
+                <ul>
+                    <li><strong>Input Layer:</strong> Nơi dữ liệu được thu thập từ các sources (forwarders, HTTP inputs, syslog)</li>
+                    <li><strong>Indexing Layer:</strong> Nơi dữ liệu được phân tích, biến đổi, và lưu trữ dưới dạng chỉ mục</li>
+                    <li><strong>Search & Visualization Layer:</strong> Nơi người dùng tìm kiếm, phân tích, và trực quan hóa dữ liệu</li>
+                </ul>
+
+                <h3>Quá trình cài đặt</h3>
+                <div class="info-box">
+                    <strong>Các bước cài đặt cơ bản:</strong><br>
+                    1. Tải Splunk từ splunk.com<br>
+                    2. Cài đặt trên một máy chủ Linux hoặc Windows<br>
+                    3. Khởi động Splunk: <code>./splunk start --accept-license</code><br>
+                    4. Truy cập giao diện web tại http://localhost:8000<br>
+                    5. Cấu hình data inputs để bắt đầu thu thập logs
+                </div>
+                
+                <h2 id="data-input">Ingestion & Data Input</h2>
+                
+                <h3>Các phương pháp thu thập dữ liệu</h3>
+                <ul>
+                    <li><strong>Universal Forwarder:</strong> Agent nhẹ (cho máy Windows/Linux) gửi logs đến Splunk</li>
+                    <li><strong>Heavy Forwarder:</strong> Forwarder có khả năng xử lý cao (có thể parse và transform dữ liệu)</li>
+                    <li><strong>HTTP Event Collector (HEC):</strong> API để gửi dữ liệu trực tiếp qua HTTP/HTTPS</li>
+                    <li><strong>Direct File Monitoring:</strong> Splunk giám sát các tập tin trực tiếp trên máy chủ</li>
+                    <li><strong>Syslog Input:</strong> Tiếp nhận dữ liệu từ các tập tin syslog của hệ thống</li>
+                    <li><strong>Network Monitoring:</strong> Thu thập dữ liệu từ các port mạng</li>
+                </ul>
+
+                <h3>Các nguồn dữ liệu phổ biến</h3>
+                <p>
+                    Splunk có thể thu thập dữ liệu từ hầu hết các nguồn, bao gồm:
+                </p>
+                <ul>
+                    <li>Operating System logs (Windows Event Logs, Linux/Unix logs)</li>
+                    <li>Web server logs (Apache, Nginx, IIS)</li>
+                    <li>Application logs (database logs, custom application logs)</li>
+                    <li>Firewall và IDS/IPS logs</li>
+                    <li>Active Directory logs</li>
+                    <li>Proxy logs</li>
+                    <li>Antivirus logs</li>
+                </ul>
+
+                <h2 id="spl">Splunk Query Language (SPL) - Ngôn ngữ truy vấn</h2>
+                
+                <h3>Giới thiệu về SPL</h3>
+                <p>
+                    SPL (Splunk Processing Language) là ngôn ngữ truy vấn mạnh mẽ của Splunk. 
+                    Nó cho phép người dùng tìm kiếm, lọc, biến đổi, và phân tích dữ liệu. 
+                    SPL được xây dựng trên kiến trúc pipe-forward giống như Unix shell.
+                </p>
+
+                <h3>Cấu trúc cơ bản của một SPL query</h3>
+                <div class="info-box">
+                    <strong>Cú pháp cơ bản:</strong><br>
+                    <code>source="path/to/file" earliest=-24h | search error | stats count by host</code>
+                </div>
+
+                <h3>Các lệnh SPL phổ biến</h3>
+                <ul>
+                    <li><strong>search:</strong> Tìm kiếm các sự kiện khớp với các tiêu chí nhất định</li>
+                    <li><strong>stats:</strong> Tính toán các thống kê như count, sum, average</li>
+                    <li><strong>rex:</strong> Trích xuất các trường bằng regular expressions</li>
+                    <li><strong>eval:</strong> Tính toán các giá trị mới dựa trên các trường hiện có</li>
+                    <li><strong>table:</strong> Hiển thị dữ liệu dưới dạng bảng với các cột được chỉ định</li>
+                    <li><strong>top:</strong> Tìm các giá trị xuất hiện nhiều nhất</li>
+                    <li><strong>dedup:</strong> Loại bỏ các sự kiện trùng lặp</li>
+                    <li><strong>sort:</strong> Sắp xếp kết quả</li>
+                    <li><strong>where:</strong> Lọc dữ liệu dựa trên các điều kiện</li>
+                </ul>
+
+                <h3>Ví dụ về SPL queries</h3>
+                <div class="info-box">
+                    <strong>Ví dụ 1: Tìm tất cả các failed login attempts</strong><br>
+                    <code>source=WinEventLog:Security EventCode=4625 | stats count by user</code><br><br>
+                    <strong>Ví dụ 2: Tìm top 10 IPs gửi traffic</strong><br>
+                    <code>source=firewall | stats sum(bytes) as total_bytes by src_ip | top 10 total_bytes</code>
+                </div>
+
+                <h2 id="dashboards">Dashboards & Visualizations</h2>
+                
+                <h3>Tạo và tùy chỉnh Dashboards</h3>
+                <p>
+                    Dashboards trong Splunk cho phép bạn trực quan hóa dữ liệu một cách có ý nghĩa. 
+                    Mỗi dashboard bao gồm nhiều panels, mỗi panel chứa một biểu đồ, bảng, hoặc hình ảnh được tạo từ một SPL query.
+                </p>
+
+                <ul>
+                    <li><strong>Line Charts:</strong> Hiển thị xu hướng theo thời gian</li>
+                    <li><strong>Bar Charts:</strong> So sánh giá trị giữa các danh mục</li>
+                    <li><strong>Pie Charts:</strong> Hiển thị phân chia theo phần trăm</li>
+                    <li><strong>Tables:</strong> Hiển thị dữ liệu chi tiết dưới dạng bảng</li>
+                    <li><strong>Single Value:</strong> Hiển thị một giá trị duy nhất</li>
+                    <li><strong>Heatmaps:</strong> Hiển thị mật độ dữ liệu</li>
+                </ul>
+
+                <h3>Các Dashboard phổ biến trong bảo mật</h3>
+                <p>
+                    Các tổ chức thường tạo các dashboard sau:
+                </p>
+                <ul>
+                    <li><strong>Security Overview Dashboard:</strong> Hiển thị tóm tắt các sự kiện bảo mật chính</li>
+                    <li><strong>Threat Intelligence Dashboard:</strong> Hiển thị các mối đe dọa được phát hiện</li>
+                    <li><strong>User Activity Dashboard:</strong> Giám sát hoạt động của người dùng</li>
+                    <li><strong>Compliance Dashboard:</strong> Theo dõi trạng thái tuân thủ</li>
+                    <li><strong>Incident Response Dashboard:</strong> Theo dõi các sự cố đang diễn ra</li>
+                </ul>
+
+                <h2 id="alerts">Alerts & Playbooks</h2>
+                
+                <h3>Tạo Alerts trong Splunk</h3>
+                <p>
+                    Alerts là một tính năng quan trọng của Splunk cho phép bạn nhận được thông báo khi có 
+                    một điều kiện cụ thể được đáp ứng. Bạn có thể cấu hình alerts để chạy theo lịch hoặc real-time.
+                </p>
+
+                <h3>Các loại Alert Actions</h3>
+                <ul>
+                    <li><strong>Email Notification:</strong> Gửi email khi alert được kích hoạt</li>
+                    <li><strong>Webhook:</strong> Gọi một URL bên ngoài (có thể tích hợp với n8n hoặc SOAR)</li>
+                    <li><strong>Slack/Teams Notification:</strong> Gửi tin nhắn đến các kênh Slack hoặc Teams</li>
+                    <li><strong>PagerDuty Integration:</strong> Tạo incident trong PagerDuty</li>
+                    <li><strong>Incident Creation:</strong> Tạo ticket trong hệ thống ticketing</li>
+                </ul>
+
+                <h3>Cấu hình Alert ví dụ</h3>
+                <div class="info-box">
+                    <strong>Alert để phát hiện brute force attacks:</strong><br>
+                    Chạy SPL query: <code>source=WinEventLog:Security EventCode=4625 | stats count by user, src_ip</code><br>
+                    Alert khi: count > 10 trong 5 phút<br>
+                    Action: Gửi Slack notification, tạo Jira ticket
+                </div>
+
+                <h2 id="best-practices">Best Practices cho SIEM Implementation</h2>
+                
+                <h3>1. Data Management & Retention Policy</h3>
+                <p>
+                    Xác định rõ ràng những dữ liệu nào cần lưu trữ bao lâu. Thường thì:
+                </p>
+                <ul>
+                    <li>Security events: 1 năm trở lên</li>
+                    <li>Performance data: 30-90 ngày</li>
+                    <li>Application logs: 30-90 ngày</li>
+                </ul>
+
+                <h3>2. Index Strategy</h3>
+                <p>
+                    Tạo các indexes riêng biệt cho các loại dữ liệu khác nhau:
+                </p>
+                <ul>
+                    <li>main: Default index cho dữ liệu chung</li>
+                    <li>security: Cho tất cả dữ liệu liên quan đến bảo mật</li>
+                    <li>network: Cho logs liên quan đến mạng</li>
+                    <li>application: Cho logs ứng dụng</li>
+                </ul>
+
+                <h3>3. Source Type Configuration</h3>
+                <p>
+                    Cấu hình source types chính xác để Splunk có thể phân tích dữ liệu một cách tự động. 
+                    Điều này bao gồm xác định các trường thời gian, timestamp formats, v.v.
+                </p>
+
+                <h3>4. Performance Optimization</h3>
+                <p>
+                    Để tối ưu hóa hiệu suất Splunk:
+                </p>
+                <ul>
+                    <li>⚡ Sử dụng HEC (HTTP Event Collector) cho high-volume data</li>
+                    <li>🎯 Tuning transforms và indexed extractions</li>
+                    <li>📈 Scaling với multiple indexers cho high availability</li>
+                    <li>🔧 Sử dụng data sampling cho dữ liệu lớn</li>
+                </ul>
+
+                <h3>5. Compliance & Audit</h3>
+                <p>
+                    Đảm bảo rằng Splunk được cấu hình để đáp ứng các yêu cầu compliance như:
+                </p>
+                <ul>
+                    <li>GDPR: Xóa dữ liệu cá nhân theo yêu cầu</li>
+                    <li>HIPAA: Mã hóa dữ liệu trong transit và at rest</li>
+                    <li>PCI-DSS: Lưu trữ logs bảo mật cho ít nhất 1 năm</li>
+                    <li>SOC 2: Audit logging cho tất cả các thay đổi cấu hình</li>
+                </ul>
+
+                <h2>Các Trường hợp Sử dụng trong Thực tế</h2>
+                
+                <h3>Use Case 1: Phát hiện Ransomware Activity</h3>
+                <p>
+                    Splunk có thể phát hiện hoạt động ransomware bằng cách giám sát:
+                </p>
+                <ul>
+                    <li>File system changes ngoài lịch trình</li>
+                    <li>Encryption processes đang chạy</li>
+                    <li>Large file deletion operations</li>
+                    <li>Network communications đến các địa chỉ IP lạ</li>
+                </ul>
+
+                <h3>Use Case 2: Phát hiện Insider Threats</h3>
+                <p>
+                    Splunk có thể giám sát:
+                </p>
+                <ul>
+                    <li>Unusual access patterns</li>
+                    <li>Data exfiltration attempts</li>
+                    <li>Off-hours access to sensitive systems</li>
+                </ul>
+
+                <h3>Use Case 3: Compliance Monitoring</h3>
+                <p>
+                    Splunk có thể tự động kiểm tra compliance với:
+                </p>
+                <ul>
+                    <li>Patch management policies</li>
+                    <li>Password policies</li>
+                    <li>Access controls</li>
+                    <li>Audit logging requirements</li>
+                </ul>
+
+                <h2>Kết luận</h2>
+                <p>
+                    Splunk là một nền tảng SIEM mạnh mẽ và linh hoạt cho phép các tổ chức 
+                    tập trung, phân tích, và phản hồi các sự kiện bảo mật. Với hơn 20 năm kinh nghiệm 
+                    trong ngành, Splunk đã trở thành một lựa chọn hàng đầu cho các tổ chức muốn 
+                    xây dựng một SOC hiệu quả. Hiểu biết về Splunk, đặc biệt là SPL, 
+                    là một kỹ năng quan trọng cho các chuyên gia bảo mật hiện đại.</p>
+                </ul>
+
+                <h2 id="data-input">Ingestion & Data Input</h2>
+                <p>
+                    Splunk có thể nhận dữ liệu từ nhiều sources:
+                </p>
+                <ul>
+                    <li>Files & Directories</li>
+                    <li>Network Ports (Syslog, HTTP, etc.)</li>
+                    <li>Splunk Forwarders</li>
+                    <li>Databases (DB Connects)</li>
+                    <li>Cloud Services (AWS, Azure, etc.)</li>
+                </ul>
+
+                <h2 id="spl">Splunk Query Language (SPL)</h2>
+                <p>
+                    SPL là ngôn ngữ truy vấn của Splunk, cho phép tìm kiếm và phân tích dữ liệu.
+                </p>
+                <div class="info-box">
+                    <strong>Ví dụ:</strong><br>
+                    <code>index=main sourcetype=syslog ERROR | stats count by host</code><br>
+                    Truy vấn này tìm kiếm các events có chứa ERROR và đếm theo host.
+                </div>
+
+                <h2 id="dashboards">Dashboards & Visualizations</h2>
+                <p>
+                    Splunk cho phép tạo dashboards để trực quan hóa dữ liệu bảo mật, giúp team bảo mật 
+                    nhanh chóng nhận biết các mối đe dọa.
+                </p>
+
+                <h2 id="alerts">Alerts & Playbooks</h2>
+                <p>
+                    Splunk hỗ trợ tạo alerts để thông báo khi có sự cố và execute playbooks để tự động phản hồi.
+                </p>
+
+                <h2 id="best-practices">Best Practices</h2>
+                <ul>
+                    <li>🔐 Mã hóa dữ liệu in transit và at rest</li>
+                    <li>📊 Tối ưu hóa retention policy theo nhu cầu compliance</li>
+                    <li>⚡ Sử dụng HEC (HTTP Event Collector) cho high-volume data</li>
+                    <li>🎯 Tuning transforms và indexed extractions</li>
+                    <li>📈 Scaling với multiple indexers cho high availability</li>
+                </ul>
+
+                <h2>Kết luận</h2>
+                <p>
+                    Splunk là một nền tảng mạnh mẽ để triển khai SIEM hiệu quả. 
+                    Với những kiến thức cơ bản này, bạn có thể bắt đầu xây dựng hệ thống monitoring bảo mật.
+                </p>
+            </section>
+
+            <footer class="article-footer">
+                <div class="author-info">
+                    <h4>👤 Về Tác Giả</h4>
+                    <p><strong>Bùi Quang Vinh</strong> - SIEM & SOC Specialist</p>
+                </div>
+                <div class="navigation">
+                    <a href="../../blog.html" class="nav-button secondary">← Quay lại Blog</a>
+                    <a href="python-security.html" class="nav-button">Bài viết tiếp theo →</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../../index.html">Trang Chủ</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../index.html#contact">Liên Hệ</a>
+            </div>
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

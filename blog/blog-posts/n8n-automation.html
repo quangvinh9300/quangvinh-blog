@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>n8n Automation: Tự động hóa bảo mật - Blog Bùi Quang Vinh</title>
+    <link rel="stylesheet" href="../styles.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #00d4ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 2rem 4rem;
+        }
+
+        .article-header {
+            margin-bottom: 3rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 2rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .article-content {
+            line-height: 2;
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            margin-top: 2.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.8rem;
+        }
+
+        .highlight {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 5px;
+        }
+
+        .toc {
+            background: var(--bg-light);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .toc h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .toc a:hover {
+            text-decoration: underline;
+        }
+
+        .article-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--accent);
+        }
+
+        .author-info {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .author-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .nav-button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .nav-button.secondary {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .nav-button.secondary:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--accent);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="../../index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <div class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">🔧 Tự động hóa bảo mật với n8n</h1>
+                <img src="../../images/n8n-topic.svg" alt="n8n Workflow Automation" style="width: 100%; max-width: 500px; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,212,255,0.3);">
+                <div class="article-meta">
+                    <span class="meta-item">📅 05/12/2024</span>
+                    <span class="meta-item">✍️ Bùi Quang Vinh</span>
+                    <span class="meta-item">⏱️ 9 phút đọc</span>
+                </div>
+                <div class="article-tags">
+                    <span class="tag">n8n</span>
+                    <span class="tag">Automation</span>
+                    <span class="tag">Workflow</span>
+                    <span class="tag">Integration</span>
+                </div>
+            </header>
+
+            <div class="toc">
+                <h3>📑 Mục Lục</h3>
+                <ul>
+                    <li><a href="#introduction">Giới thiệu n8n</a></li>
+                    <li><a href="#what-is-n8n">n8n là gì?</a></li>
+                    <li><a href="#key-features">Tính năng chính</a></li>
+                    <li><a href="#use-cases">Trường hợp sử dụng</a></li>
+                    <li><a href="#getting-started">Bắt đầu với n8n</a></li>
+                    <li><a href="#security-automation">Tự động hóa bảo mật</a></li>
+                </ul>
+            </div>
+
+            <section class="article-content">
+                <h2 id="introduction">Giới thiệu n8n: Nền tảng Automation mạnh mẽ</h2>
+                <p>
+                    Trong thế giới bảo mật hiện đại, <span class="highlight">tự động hóa (automation)</span> 
+                    không chỉ là một lợi thế mà còn là một yêu cầu bắt buộc. Các tổ chức phải xử lý hàng triệu 
+                    sự kiện bảo mật mỗi ngày, và việc xử lý thủ công là không thể. <span class="highlight">n8n</span> 
+                    là một nền tảng automation open-source, được phát triển để giúp các tổ chức xây dựng các quy trình 
+                    tích hợp phức tạp mà không cần kiến thức lập trình chuyên sâu.
+                </p>
+                
+                <p>
+                    Nền tảng này được thiết kế với triết lý "no-code" tại tâm, cho phép các chuyên gia bảo mật, 
+                    quản trị viên hệ thống, và các chuyên gia vận hành tạo ra các quy trình tự động hóa mà trước đây 
+                    chỉ có thể thực hiện thông qua lập trình tùy chỉnh. Việc này giảm thời gian phát triển từ 
+                    tuần hoặc tháng xuống còn vài giờ hoặc ngày.
+                </p>
+
+                <h2 id="what-is-n8n">n8n là gì? Định nghĩa và Khái niệm cơ bản</h2>
+                <p>
+                    n8n (phát âm "n-eight-n") là một nền tảng workflow automation open-source được xây dựng bằng Node.js. 
+                    Nó cho phép các người dùng tạo, chạy, và quản lý các workflows tự động hóa phức tạp để tích hợp 
+                    hàng trăm ứng dụng và dịch vụ khác nhau. Không giống như các công cụ automation khác như Zapier 
+                    hay IFTTT, n8n cung cấp toàn quyền kiểm soát và có thể được triển khai trên máy chủ của riêng bạn.
+                </p>
+
+                <h3>Các thành phần chính của n8n:</h3>
+                <ul>
+                    <li><strong>Nodes:</strong> Các khối xây dựng cơ bản đại diện cho các hành động hoặc kích hoạt</li>
+                    <li><strong>Connections:</strong> Các đường kết nối giữa nodes định nghĩa luồng dữ liệu</li>
+                    <li><strong>Workflows:</strong> Một tập hợp các nodes được kết nối với nhau để thực hiện một tác vụ cụ thể</li>
+                    <li><strong>Credentials:</strong> Thông tin xác thực được lưu trữ an toàn để kết nối với các ứng dụng bên ngoài</li>
+                    <li><strong>Executions:</strong> Các lần chạy workflow được ghi lại để tham khảo và gỡ lỗi</li>
+                </ul>
+
+                <h2 id="key-features">Tính năng chính của n8n</h2>
+                
+                <h3>1. Giao diện No-Code Visual</h3>
+                <p>
+                    Giao diện kéo-thả trực quan của n8n cho phép bất kỳ ai, không cần kiến thức lập trình, 
+                    xây dựng các workflows phức tạp. Mỗi node trong workflow đại diện cho một tác vụ cụ thể, 
+                    và bạn có thể kết nối chúng theo bất kỳ thứ tự nào.
+                </p>
+
+                <h3>2. 700+ Tích hợp sẵn có</h3>
+                <p>
+                    n8n hỗ trợ tích hợp với hơn 700 ứng dụng và dịch vụ bao gồm các công cụ bảo mật phổ biến như:
+                </p>
+                <ul>
+                    <li>SIEM tools: Splunk, Elastic Stack, Wazuh</li>
+                    <li>Communication: Slack, Microsoft Teams, Discord, Telegram</li>
+                    <li>Cloud providers: AWS, Google Cloud, Microsoft Azure</li>
+                    <li>Ticketing systems: Jira, ServiceNow, GitHub Issues</li>
+                    <li>APIs: Generic HTTP, REST, GraphQL</li>
+                    <li>Databases: MySQL, PostgreSQL, MongoDB</li>
+                </ul>
+
+                <h3>3. Luật Điều kiện và Logic phức tạp</h3>
+                <p>
+                    n8n cho phép xây dựng logic quyết định phức tạp bằng các nodes IF/ELSE, cho phép workflows 
+                    thực thi các nhánh khác nhau dựa trên các điều kiện cụ thể. Điều này cho phép xây dựng các 
+                    workflows thông minh có thể tự động đưa ra quyết định dựa trên dữ liệu.
+                </p>
+
+                <h3>4. Lịch trình và Kích hoạt</h3>
+                <p>
+                    Workflows có thể được kích hoạt theo nhiều cách:
+                </p>
+                <ul>
+                    <li>Webhook triggers: Từ các ứng dụng bên ngoài (ví dụ: alerts từ SIEM)</li>
+                    <li>Schedule triggers: Chạy theo lịch (hàng ngày, hàng tuần, v.v.)</li>
+                    <li>Manual triggers: Chạy thủ công thông qua giao diện</li>
+                    <li>Polling: Kiểm tra các ứng dụng bên ngoài định kỳ để tìm dữ liệu mới</li>
+                </ul>
+
+                <h3>5. Xử lý lỗi và Khôi phục</h3>
+                <p>
+                    n8n cung cấp các cơ chế xử lý lỗi mạnh mẽ bao gồm retry logic, error paths, 
+                    và thông báo lỗi. Điều này đảm bảo rằng các workflows có khả năng chịu lỗi cao 
+                    và có thể phục hồi từ các lỗi tạm thời.
+                </p>
+
+                <h3>6. Self-Hosted và Cloud Deployment</h3>
+                <p>
+                    n8n cung cấp cả các tùy chọn triển khai tự lưu trữ (on-premises) và cloud-based. 
+                    Điều này cho phép các tổ chức chọn mô hình triển khai phù hợp với yêu cầu bảo mật 
+                    và tuân thủ của họ.
+                </p>
+
+                <h2>So sánh n8n với các công cụ Automation khác</h2>
+                <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                    <thead>
+                        <tr style="background-color: #f0f0f0;">
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Tính năng</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">n8n</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Zapier</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">IFTTT</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Make</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Mô hình giá</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Miễn phí (self-hosted)</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Trả phí</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Miễn phí/Trả phí</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Miễn phí/Trả phí</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Tích hợp</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">700+</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">6000+</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">600+</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">1000+</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Self-hosted</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Có</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Không</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Không</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Có</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Advanced Logic</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Thấp</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Kiểm soát dữ liệu</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Toàn quyền</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Hạn chế</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Hạn chế</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Tốt</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Node Types: Các loại nút trong n8n</h2>
+                
+                <h3>1. Trigger Nodes (Nút kích hoạt)</h3>
+                <p>
+                    Trigger nodes là điểm bắt đầu của một workflow. Chúng đặt ra câu hỏi: "Khi nào workflow 
+                    này nên chạy?" Các loại trigger phổ biến bao gồm:
+                </p>
+                <ul>
+                    <li><strong>Webhook Trigger:</strong> Kích hoạt khi nhận được HTTP request</li>
+                    <li><strong>Schedule Trigger:</strong> Kích hoạt theo lịch định sẵn</li>
+                    <li><strong>Email Trigger:</strong> Kích hoạt khi nhận được email mới</li>
+                    <li><strong>Event-based Trigger:</strong> Kích hoạt khi sự kiện xảy ra trong ứng dụng bên ngoài</li>
+                </ul>
+
+                <h3>2. Action Nodes (Nút hành động)</h3>
+                <p>
+                    Action nodes thực hiện các tác vụ cụ thể như gửi email, tạo ticket, gọi API, v.v. 
+                    Mỗi action node đại diện cho một tác vụ có thể thực hiện được trong ứng dụng bên ngoài.
+                </p>
+
+                <h3>3. Conditional Nodes (Nút điều kiện)</h3>
+                <p>
+                    Các node IF/ELSE cho phép logic rẽ nhánh, cho phép workflow đưa ra quyết định dựa trên dữ liệu.
+                </p>
+
+                <h3>4. Data Manipulation Nodes (Nút xử lý dữ liệu)</h3>
+                <p>
+                    Các node này giúp biến đổi dữ liệu như JSON, Function, Item Lists, v.v. 
+                    Chúng cho phép bạn xử lý và chuẩn bị dữ liệu trước khi gửi đến nơi đích.
+                </p>
+
+                <h2>Các trường hợp sử dụng trong Bảo mật</h2>
+                
+                <h3>1. Automation phát hiện & phản hồi sự cố (Detection & Response)</h3>
+                <p>
+                    Khi SIEM phát hiện hoạt động đáng ngờ, n8n có thể tự động:
+                </p>
+                <ul>
+                    <li>Truy vấn threat intelligence databases để làm phong phú alert</li>
+                    <li>Kiểm tra lịch sử của IP/user/domain đó</li>
+                    <li>Tự động block IP trong firewall nếu mối đe dọa được xác nhận</li>
+                    <li>Tạo ticket trong hệ thống ticketing</li>
+                    <li>Thông báo cho security team qua Slack/Teams</li>
+                </ul>
+
+                <h3>2. Vulnerability Management Automation</h3>
+                <p>
+                    Tự động hóa quy trình quản lý lỗ hổng:
+                </p>
+                <ul>
+                    <li>Chạy các bộ quét lỗ hổng (Nessus, Qualys) theo lịch</li>
+                    <li>Tiếp nhận kết quả quét tự động</li>
+                    <li>Phân loại lỗ hổng theo mức độ nghiêm trọng</li>
+                    <li>Tạo tickets Jira tự động cho các lỗ hổng cần remediation</li>
+                    <li>Gửi báo cáo cho các bộ phận liên quan</li>
+                </ul>
+
+                <h3>3. User Access Review & Privileged Account Management</h3>
+                <p>
+                    Tự động hóa các quy trình quản lý truy cập:
+                </p>
+                <ul>
+                    <li>Tạo báo cáo access review hàng tháng</li>
+                    <li>Xác nhận quyền truy cập với các manager</li>
+                    <li>Tự động tắt tài khoản của nhân viên rời đi</li>
+                    <li>Yêu cầu thay đổi mật khẩu định kỳ</li>
+                </ul>
+
+                <h3>4. Patch Management</h3>
+                <p>
+                    Quản lý patches một cách tự động:
+                </p>
+                <ul>
+                    <li>Theo dõi các bản vá lỗi mới từ các vendors</li>
+                    <li>Tạo tickets cho việc cập nhật</li>
+                    <li>Kiểm tra compliance với các tiêu chuẩn patch</li>
+                    <li>Gửi báo cáo trạng thái patches</li>
+                </ul>
+
+                <h3>5. Compliance Monitoring</h3>
+                <p>
+                    Tự động hóa các kiểm tra compliance:
+                </p>
+                <ul>
+                    <li>Kiểm tra firewall rules có tuân thủ chính sách không</li>
+                    <li>Xác minh các cấu hình bảo mật định kỳ</li>
+                    <li>Tạo báo cáo compliance tự động</li>
+                </ul>
+
+                <h2>Best Practices cho Workflow Design trong n8n</h2>
+                
+                <h3>1. Modularity (Tính modular)</h3>
+                <p>
+                    Hãy tạo các workflows nhỏ, tập trung vào một tác vụ cụ thể. Có thể gọi workflows từ workflows 
+                    khác thông qua "Workflow" node, cho phép tái sử dụng và bảo trì dễ dàng.
+                </p>
+
+                <h3>2. Error Handling (Xử lý lỗi)</h3>
+                <p>
+                    Luôn thêm error handling paths cho các critical actions. Hãy cấu hình retry logic 
+                    cho các tác vụ có thể thất bại do lỗi mạng hoặc tạm thời.
+                </p>
+
+                <h3>3. Logging & Monitoring</h3>
+                <p>
+                    Thêm các nodes để ghi lại các sự kiện quan trọng. Sử dụng webhook để gửi 
+                    thông báo đến monitoring systems như DataDog hoặc New Relic.
+                </p>
+
+                <h3>4. Security (Bảo mật)</h3>
+                <p>
+                    Luôn sử dụng credentials được lưu trữ an toàn, không bao giờ hardcode API keys hoặc passwords. 
+                    Sử dụng environment variables và secret management systems.
+                </p>
+
+                <h3>5. Testing (Kiểm thử)</h3>
+                <p>
+                    Luôn kiểm thử workflows với dữ liệu thực tế trước khi triển khai vào production. 
+                    n8n cung cấp execution history để bạn có thể kiểm tra kết quả.
+                </p>
+
+                <h2>Cài đặt và Bắt đầu với n8n</h2>
+                
+                <h3>Cài đặt Self-Hosted với Docker</h3>
+                <p>
+                    Cài đặt n8n tự lưu trữ rất đơn giản bằng Docker:
+                </p>
+                <div class="info-box">
+                    <strong>Lệnh Docker:</strong><br>
+                    <code>docker run -it --rm --name n8n -p 5678:5678 -v ~/.n8n:/home/node/.n8n n8nio/n8n</code>
+                </div>
+
+                <h3>Truy cập n8n</h3>
+                <p>
+                    Sau khi cài đặt, truy cập n8n tại http://localhost:5678. Lần đầu tiên, bạn sẽ cần 
+                    đặt tên người dùng và mật khẩu.
+                </p>
+
+                <h3>Tạo Workflow đầu tiên</h3>
+                <ol>
+                    <li>Nhấp vào "+ New Workflow"</li>
+                    <li>Thêm một trigger node (ví dụ: Manual Trigger)</li>
+                    <li>Thêm các action nodes (ví dụ: HTTP Request hoặc Slack notification)</li>
+                    <li>Kết nối các nodes bằng cách kéo từ một output đến input của node khác</li>
+                    <li>Nhấp vào "Execute Workflow" để kiểm thử</li>
+                    <li>Khi hài lòng, nhấp "Activate" để kích hoạt workflow</li>
+                </ol>
+
+                <h2>Bảo mật trong n8n Workflows</h2>
+                
+                <h3>Quản lý Credentials</h3>
+                <p>
+                    n8n cung cấp một credential manager tích hợp sẽ mã hóa tất cả các API keys, 
+                    usernames, và passwords. Luôn sử dụng credential manager thay vì hardcoding.
+                </p>
+
+                <h3>Audit Logging</h3>
+                <p>
+                    n8n ghi lại tất cả các execution của workflows, bao gồm inputs, outputs, và bất kỳ lỗi nào. 
+                    Điều này cho phép audit trails để tuân thủ các yêu cầu compliance.
+                </p>
+
+                <h3>Access Control</h3>
+                <p>
+                    Các phiên bản trên Enterprise của n8n cung cấp kiểm soát truy cập dựa trên vai trò (RBAC), 
+                    cho phép bạn kiểm soát ai có thể xem, chỉnh sửa, và chạy các workflows.
+                </p>
+
+                <h2>Kết luận</h2>
+                <p>
+                    n8n là một nền tảng automation mạnh mẽ, linh hoạt, và tiết kiệm chi phí cho các tổ chức 
+                    muốn tự động hóa các quy trình bảo mật. Với giao diện no-code, 700+ tích hợp sẵn có, 
+                    và khả năng tự lưu trữ, n8n là một lựa chọn tuyệt vời cho các tổ chức ở bất kỳ quy mô nào. 
+                    Dù bạn là một startup nhỏ hay một doanh nghiệp lớn, n8n có thể giúp bạn giảm chi phí vận hành, 
+                    cải thiện hiệu quả, và tăng cường khả năng phản hồi sự cố của bạn.
+                </p>
+                
+                <div class="info-box">
+                    <strong>Tài nguyên bổ sung:</strong><br>
+                    • Trang web chính thức: https://n8n.io/<br>
+                    • Tài liệu: https://docs.n8n.io/<br>
+                    • Cộng đồng: https://community.n8n.io/<br>
+                    • GitHub: https://github.com/n8n-io/n8n
+                </div>
+            </section>
+
+            <footer class="article-footer">
+                <div class="author-info">
+                    <h4>👤 Về Tác Giả</h4>
+                    <p><strong>Bùi Quang Vinh</strong> - Cybersecurity Specialist & Automation Enthusiast</p>
+                </div>
+
+                <div class="navigation">
+                    <a href="../../blog.html" class="nav-button secondary">← Quay lại Blog</a>
+                    <a href="splunk-siem.html" class="nav-button">Bài viết tiếp theo →</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../../index.html">Trang Chủ</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../index.html#contact">Liên Hệ</a>
+            </div>
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,1360 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bùi Quang Vinh - Portfolio | Cybersecurity Specialist</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #00d4ff;
+            --text-dark: #333;
+            --text-light: #666;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Hero Section */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 100vh;
+            margin-top: 60px;
+            overflow: hidden;
+        }
+
+        .hero-left {
+            background: var(--secondary);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 4rem;
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        .hero-right {
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: slideInRight 0.8s ease-out;
+            position: relative;
+        }
+
+        .avatar-container {
+            width: 300px;
+            height: 300px;
+            background: linear-gradient(135deg, var(--accent), #0099cc);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 6rem;
+            box-shadow: 0 0 50px rgba(0, 212, 255, 0.3);
+            animation: float 3s ease-in-out infinite;
+            overflow: hidden;
+            border: 3px solid var(--accent);
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            animation: slideInUp 0.8s ease-out;
+        }
+
+        .hero-content .subtitle {
+            font-size: 1.5rem;
+            color: var(--accent);
+            margin-bottom: 0.5rem;
+            animation: slideInUp 0.8s ease-out 0.1s both;
+        }
+
+        .hero-content .birthdate {
+            font-size: 1rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            animation: slideInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-content p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 2rem;
+            line-height: 1.8;
+            animation: slideInUp 0.8s ease-out 0.3s both;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            animation: slideInUp 0.8s ease-out 0.4s both;
+        }
+
+        .btn {
+            padding: 0.75rem 2rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: var(--secondary);
+            border-color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            background: var(--accent);
+            border-color: var(--accent);
+            color: var(--primary);
+        }
+
+        /* About Section */
+        .about {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 3rem;
+            text-align: center;
+            position: relative;
+            padding-bottom: 1rem;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: var(--accent);
+        }
+
+        .about-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .about-info h3 {
+            color: var(--primary);
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .about-info h3:first-child {
+            margin-top: 0;
+        }
+
+        .info-item {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-dark);
+        }
+
+        .info-icon {
+            color: var(--accent);
+            font-weight: bold;
+            min-width: 20px;
+        }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .skill-category h4 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .skill-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .skill-item {
+            padding: 0.5rem 0;
+            color: var(--text-dark);
+            padding-left: 1.5rem;
+            position: relative;
+        }
+
+        .skill-item::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        /* Skills Section */
+        .skills {
+            background: #f9f9f9;
+            padding: 5rem 2rem;
+        }
+
+        .skills-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .skills-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .skill-category {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .skill-category:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .skill-category h4 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+
+        /* Projects Section */
+        .projects {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .project-card {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
+            border-color: var(--accent);
+        }
+
+        .project-card-header {
+            background: linear-gradient(135deg, var(--primary), #1a1a1a);
+            color: var(--secondary);
+            padding: 2rem;
+            min-height: 150px;
+            display: flex;
+            align-items: center;
+        }
+
+        .project-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-card-body {
+            padding: 2rem;
+        }
+
+        .project-description {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .project-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s ease;
+        }
+
+        .project-link:hover {
+            color: var(--primary);
+        }
+
+        /* Certifications Section */
+        .certifications {
+            background: #f9f9f9;
+            padding: 5rem 2rem;
+        }
+
+        .certifications-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .cert-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            border-left: 5px solid var(--accent);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .cert-card:hover {
+            transform: translateX(5px);
+            box-shadow: 0 5px 15px rgba(0, 212, 255, 0.2);
+        }
+
+        .cert-card h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .cert-issuer {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .cert-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+        }
+
+        /* Blog Section */
+        .blog {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2rem;
+        }
+
+        .blog-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 212, 255, 0.2);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 3rem;
+        }
+
+        .blog-content {
+            padding: 2rem;
+        }
+
+        .blog-content h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+
+        .blog-date {
+            color: var(--text-light);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .blog-excerpt {
+            color: var(--text-dark);
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        .blog-link {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .blog-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Contact Section */
+        .contact {
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 5rem 2rem;
+        }
+
+        .contact-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-info h3 {
+            color: var(--accent);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item label {
+            display: block;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .contact-item a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .contact-item a:hover {
+            color: var(--accent);
+        }
+
+        .contact-item p {
+            color: var(--secondary);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-link {
+            width: 50px;
+            height: 50px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--accent);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.5rem;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            padding: 0.75rem;
+            border: 1px solid var(--accent);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--secondary);
+            font-family: inherit;
+            font-size: 1rem;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 150px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .contact-form .btn {
+            border-color: var(--accent);
+            color: var(--accent);
+            margin-top: 1rem;
+        }
+
+        .contact-form .btn:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        /* Footer */
+        footer {
+            background: #0a0a0a;
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--accent);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .footer-social a {
+            color: var(--accent);
+            font-size: 1.5rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--secondary);
+        }
+
+        /* Animations */
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                margin-top: 120px;
+            }
+
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+
+            .hero-content .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .about-container,
+            .skills-content,
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+
+            .projects-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-title {
+                font-size: 2rem;
+            }
+
+            .avatar-container {
+                width: 200px;
+                height: 200px;
+                font-size: 4rem;
+                overflow: hidden;
+                border: 3px solid var(--accent);
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="#home" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="#home">Trang chủ</a></li>
+            <li><a href="#about">Về tôi</a></li>
+            <li><a href="#skills">Kỹ năng</a></li>
+            <li><a href="#projects">Dự án</a></li>
+            <li><a href="#certifications">Chứng chỉ</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero">
+        <div class="hero-left">
+            <div class="hero-content">
+                <h1>Bùi Quang Vinh</h1>
+                <p class="subtitle">Cybersecurity Specialist | An Ninh Mạng</p>
+                <p class="birthdate">Sinh: 09/03/2000</p>
+                <p>
+                    Chuyên gia bảo mật thông tin với kinh nghiệm về hệ thống XDR, 
+                    SIEM và định hướng SOC. Đam mê công nghệ, giải quyết vấn đề 
+                    phức tạp và bảo vệ hệ thống thông tin.
+                </p>
+                <div class="cta-buttons">
+                    <a href="#contact" class="btn btn-primary">Liên hệ tôi</a>
+                    <a href="#projects" class="btn">Xem dự án</a>
+                    <a href="#about" class="btn">Tìm hiểu thêm</a>
+                </div>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="avatar-container">
+                <img src="images/avatar.jpg" alt="Bùi Quang Vinh - Cybersecurity Specialist" style="width: 100%; height: 100%; object-fit: cover; object-position: center;">
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section -->
+    <section id="about" class="about">
+        <h2 class="section-title">Về Tôi</h2>
+        <div class="about-container">
+            <div class="about-info">
+                <h3>Thông Tin Cá Nhân</h3>
+                <div class="info-item">
+                    <span class="info-icon">👤</span>
+                    <span><strong>Tên:</strong> Bùi Quang Vinh</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📅</span>
+                    <span><strong>Ngày sinh:</strong> 09/03/2000</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📞</span>
+                    <span><strong>Điện thoại:</strong> 0792133833</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">📧</span>
+                    <span><strong>Email:</strong> quangvinh090300@gmail.com</span>
+                </div>
+
+                <h3>Kinh Nghiệm & Định Hướng</h3>
+                <div class="info-item">
+                    <span class="info-icon">💻</span>
+                    <span>Kiến thức cơ bản về C#, Python, Java</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🔍</span>
+                    <span>Chuyên về hệ thống XDR (Extended Detection & Response)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🎯</span>
+                    <span>Định hướng xây dựng và quản lý SOC (Security Operations Center)</span>
+                </div>
+
+                <h3>Sở Thích & Phong Cách Làm Việc</h3>
+                <div class="info-item">
+                    <span class="info-icon">⚽</span>
+                    <span>Yêu thích bóng đá, tập gym để giữ sức khỏe</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">⭐</span>
+                    <span>Làm việc có trách nhiệm, năng động, cầu tiến</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-icon">🚀</span>
+                    <span>Luôn tìm tòi, học hỏi công nghệ mới</span>
+                </div>
+            </div>
+
+            <div class="about-info">
+                <h3>Kỹ Năng Nổi Bật</h3>
+                <div class="skills-grid">
+                    <div class="skill-category">
+                        <h4>Kỹ Năng Kỹ Thuật</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">Networking & Infrastructure</div>
+                            <div class="skill-item">Information Security</div>
+                            <div class="skill-item">Python / Scripting</div>
+                            <div class="skill-item">XDR Systems</div>
+                            <div class="skill-item">SIEM (Splunk)</div>
+                            <div class="skill-item">n8n Automation</div>
+                        </div>
+                    </div>
+                    <div class="skill-category">
+                        <h4>Kỹ Năng Mềm</h4>
+                        <div class="skill-list">
+                            <div class="skill-item">Giao tiếp hiệu quả</div>
+                            <div class="skill-item">Tiếng Anh (Chứng chỉ)</div>
+                            <div class="skill-item">Làm việc nhóm</div>
+                            <div class="skill-item">Giải quyết vấn đề</div>
+                            <div class="skill-item">Lãnh đạo & Tư duy chiến lược</div>
+                            <div class="skill-item">Quản lý thời gian</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Skills Section -->
+    <section id="skills" class="skills">
+        <div class="skills-container">
+            <h2 class="section-title">Kỹ Năng</h2>
+            <div class="skills-content">
+                <div class="skill-category">
+                    <h4>🛡️ Kỹ Năng Kỹ Thuật</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><strong>Networking:</strong> TCP/IP, DNS, Firewall, VPN, Network Security</div>
+                        <div class="skill-item"><strong>Security:</strong> Vulnerability Assessment, Penetration Testing</div>
+                        <div class="skill-item"><strong>Scripting:</strong> Python, PowerShell, Bash</div>
+                        <div class="skill-item"><strong>XDR Systems:</strong> Endpoint Detection & Response, Threat Intelligence</div>
+                        <div class="skill-item"><strong>SIEM & Analytics:</strong> Splunk, Log Analysis, Security Events</div>
+                        <div class="skill-item"><strong>Automation:</strong> n8n, Workflow Automation, Integration</div>
+                    </div>
+                </div>
+                <div class="skill-category">
+                    <h4>💼 Kỹ Năng Mềm</h4>
+                    <div class="skill-list">
+                        <div class="skill-item"><strong>Giao tiếp:</strong> Chứng chỉ kỹ năng giao tiếp (tiếng Anh B1+)</div>
+                        <div class="skill-item"><strong>Làm việc nhóm:</strong> Agile, Scrum, Cross-functional collaboration</div>
+                        <div class="skill-item"><strong>Giải quyết vấn đề:</strong> Critical thinking, Decision making</div>
+                        <div class="skill-item"><strong>Lãnh đạo:</strong> Project management, Mentoring</div>
+                        <div class="skill-item"><strong>Phân tích:</strong> Data analysis, Threat analysis</div>
+                        <div class="skill-item"><strong>Tư duy chiến lược:</strong> Planning, Risk management</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section id="projects" class="projects">
+        <h2 class="section-title">Dự Án</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>Nghiên cứu XDR</h3>
+                        <p>Extended Detection & Response</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Nghiên cứu phương pháp phát hiện và phản hồi mở rộng (XDR) để bảo vệ hệ thống từ các mối đe dọa tiên tiến. Tập trung vào Endpoint Detection, Threat Intelligence và Incident Response.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">XDR</span>
+                        <span class="tech-tag">Threat Detection</span>
+                        <span class="tech-tag">Incident Response</span>
+                        <span class="tech-tag">Python</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>SIEM Implementation</h3>
+                        <p>Security Information & Event Management</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Triển khai và quản lý hệ thống SIEM (Splunk) để tập trung hóa việc giám sát các sự kiện bảo mật từ nhiều nguồn khác nhau.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Splunk</span>
+                        <span class="tech-tag">SIEM</span>
+                        <span class="tech-tag">Log Analysis</span>
+                        <span class="tech-tag">SQL</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>SOC Automation</h3>
+                        <p>Security Operations Center Workflow</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Xây dựng các workflow tự động hóa cho Security Operations Center sử dụng n8n để cải thiện hiệu quả phản hồi sự cố bảo mật.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">n8n</span>
+                        <span class="tech-tag">Automation</span>
+                        <span class="tech-tag">Integration</span>
+                        <span class="tech-tag">API</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>Network Security</h3>
+                        <p>Infrastructure Protection</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Thiết kế và triển khai các giải pháp bảo mật mạng bao gồm Firewall, VPN, và Network Segmentation để bảo vệ cơ sở hạ tầng.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Networking</span>
+                        <span class="tech-tag">Firewall</span>
+                        <span class="tech-tag">VPN</span>
+                        <span class="tech-tag">Security</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>Vulnerability Assessment</h3>
+                        <p>Risk Management</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Thực hiện đánh giá lỗ hổng và quản lý rủi ro bảo mật cho hệ thống. Sử dụng các công cụ scanning và penetration testing.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Penetration Testing</span>
+                        <span class="tech-tag">Vulnerability Scanning</span>
+                        <span class="tech-tag">Risk Assessment</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+
+            <div class="project-card">
+                <div class="project-card-header">
+                    <div>
+                        <h3>Python Security Tools</h3>
+                        <p>Custom Automation Scripts</p>
+                    </div>
+                </div>
+                <div class="project-card-body">
+                    <p class="project-description">
+                        Phát triển các công cụ bảo mật tùy chỉnh bằng Python để tự động hóa các tác vụ bảo mật như monitoring, log analysis và threat detection.
+                    </p>
+                    <div class="project-tech">
+                        <span class="tech-tag">Python</span>
+                        <span class="tech-tag">Scripting</span>
+                        <span class="tech-tag">Security Tools</span>
+                    </div>
+                    <a href="#" class="project-link">Xem chi tiết →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certifications Section -->
+    <section id="certifications" class="certifications">
+        <div class="certifications-container">
+            <h2 class="section-title">Chứng Chỉ & Thành Tựu</h2>
+            <div class="cert-grid">
+                <div class="cert-card">
+                    <h4>🎯 CompTIA Security+</h4>
+                    <p class="cert-issuer">CompTIA</p>
+                    <p class="cert-date">Đang học | Dự kiến 2025</p>
+                    <p>Chứng chỉ quốc tế về bảo mật thông tin, bao gồm Threat management, Network security, Compliance.</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4>🌍 English Communication B1</h4>
+                    <p class="cert-issuer">Ứng dụng Công nghệ</p>
+                    <p class="cert-date">2023</p>
+                    <p>Chứng chỉ kỹ năng giao tiếp tiếng Anh, đạt level B1 - Intermediate trở lên.</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4>🔐 SIEM Fundamentals</h4>
+                    <p class="cert-issuer">Splunk Training</p>
+                    <p class="cert-date">2024</p>
+                    <p>Kiến thức cơ bản về SIEM, Log analysis, Security monitoring và Event correlation.</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4>⚙️ Python for Security</h4>
+                    <p class="cert-issuer">Online Learning</p>
+                    <p class="cert-date">2024</p>
+                    <p>Python scripting cho bảo mật - viết công cụ bảo mật, automation scripts, threat analysis.</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4>🏆 Best Security Project</h4>
+                    <p class="cert-issuer">Trường/Công ty</p>
+                    <p class="cert-date">2023</p>
+                    <p>Giải thưởng cho dự án bảo mật xuất sắc, thể hiện kiến thức và kỹ năng thực tế.</p>
+                </div>
+
+                <div class="cert-card">
+                    <h4>📚 Cloud Security Essentials</h4>
+                    <p class="cert-issuer">AWS/Azure Training</p>
+                    <p class="cert-date">2024</p>
+                    <p>Kiến thức về bảo mật cloud computing, AWS/Azure security best practices.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section -->
+    <section id="blog" class="blog">
+        <h2 class="section-title">Blog & Bài Viết</h2>
+        <div class="blog-grid">
+            <div class="blog-card">
+                <div class="blog-image">🔐</div>
+                <div class="blog-content">
+                    <h4>XDR là gì? Tầm quan trọng trong bảo mật hiện đại</h4>
+                    <p class="blog-date">Ngày 15/12/2024</p>
+                    <p class="blog-excerpt">
+                        Tìm hiểu chi tiết về Extended Detection & Response (XDR) - một giải pháp bảo mật toàn diện giúp phát hiện và phản hồi mối đe dọa...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-image">🌐</div>
+                <div class="blog-content">
+                    <h4>Networking Basics: OSI Model và TCP/IP</h4>
+                    <p class="blog-date">Ngày 10/12/2024</p>
+                    <p class="blog-excerpt">
+                        Giới thiệu các khái niệm cơ bản về networking, từ OSI Model đến TCP/IP Protocol, quan trọng cho bất kỳ security engineer...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-image">🔧</div>
+                <div class="blog-content">
+                    <h4>Tự động hóa bảo mật với n8n: Hướng dẫn từng bước</h4>
+                    <p class="blog-date">Ngày 05/12/2024</p>
+                    <p class="blog-excerpt">
+                        Hướng dẫn chi tiết cách sử dụng n8n để xây dựng workflow tự động hóa cho Security Operations Center, tăng hiệu quả...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-image">📊</div>
+                <div class="blog-content">
+                    <h4>Splunk SIEM: Từ cài đặt đến phân tích sự kiện</h4>
+                    <p class="blog-date">Ngày 28/11/2024</p>
+                    <p class="blog-excerpt">
+                        Hướng dẫn toàn diện về Splunk - công cụ SIEM mạnh mẽ để quản lý và phân tích các sự kiện bảo mật từ hàng trăm nguồn...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-image">🐍</div>
+                <div class="blog-content">
+                    <h4>Python cho Cybersecurity: Công cụ hữu ích</h4>
+                    <p class="blog-date">Ngày 20/11/2024</p>
+                    <p class="blog-excerpt">
+                        Tìm hiểu cách sử dụng Python để phát triển các công cụ bảo mật, từ port scanning đến network analysis và malware detection...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+
+            <div class="blog-card">
+                <div class="blog-image">💡</div>
+                <div class="blog-content">
+                    <h4>Kinh nghiệm xây dựng SOC: Những thách thức & giải pháp</h4>
+                    <p class="blog-date">Ngày 15/11/2024</p>
+                    <p class="blog-excerpt">
+                        Chia sẻ kinh nghiệm thực tế từ quá trình xây dựng Security Operations Center, từ planning, deployment đến optimization...
+                    </p>
+                    <a href="blog.html" class="blog-link">Đọc tiếp →</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact">
+        <div class="contact-container">
+            <h2 class="section-title" style="color: var(--secondary); margin-bottom: 3rem;">Liên Hệ</h2>
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Thông Tin Liên Hệ</h3>
+                    
+                    <div class="contact-item">
+                        <label>📧 Email</label>
+                        <a href="mailto:quangvinh090300@gmail.com">quangvinh090300@gmail.com</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <label>📞 Điện Thoại</label>
+                        <a href="tel:0792133833">0792133833</a>
+                    </div>
+
+                    <div class="contact-item">
+                        <label>📍 Vị Trí</label>
+                        <p>Việt Nam</p>
+                    </div>
+
+                    <h3>Kết Nối Với Tôi</h3>
+                    <p style="margin-bottom: 1.5rem;">Tìm tôi trên các mạng xã hội:</p>
+                    <div class="social-links">
+                        <a href="https://facebook.com" class="social-link" title="Facebook">f</a>
+                        <a href="https://linkedin.com" class="social-link" title="LinkedIn">in</a>
+                        <a href="https://github.com" class="social-link" title="GitHub">gh</a>
+                        <a href="https://twitter.com" class="social-link" title="Twitter">𝕏</a>
+                    </div>
+                </div>
+
+                <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Tên của bạn</label>
+                        <input 
+                            type="text" 
+                            id="name" 
+                            name="name" 
+                            placeholder="Nhập tên của bạn" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            placeholder="nhập@email.com" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Chủ đề</label>
+                        <input 
+                            type="text" 
+                            id="subject" 
+                            name="subject" 
+                            placeholder="Chủ đề tin nhắn" 
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="message">Tin nhắn</label>
+                        <textarea 
+                            id="message" 
+                            name="message" 
+                            placeholder="Viết tin nhắn của bạn tại đây..." 
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary">Gửi Tin Nhắn</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="#home">Trang Chủ</a>
+                <a href="#about">Về Tôi</a>
+                <a href="#skills">Kỹ Năng</a>
+                <a href="#projects">Dự Án</a>
+                <a href="#certifications">Chứng Chỉ</a>
+                <a href="#blog">Blog</a>
+                <a href="#contact">Liên Hệ</a>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://facebook.com" title="Facebook">f</a>
+                <a href="https://linkedin.com" title="LinkedIn">in</a>
+                <a href="https://github.com" title="GitHub">gh</a>
+            </div>
+
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved. | Cybersecurity Specialist</p>
+        </div>
+    </footer>
+
+    <script>
+        // Smooth scroll behavior
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Form submission handling
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+
+            // Simulate form submission
+            console.log('Form submitted:', formData);
+            
+            // Show success message
+            alert('Cảm ơn bạn! Tin nhắn của bạn đã được gửi thành công. Tôi sẽ phản hồi sớm nhất.');
+            
+            // Reset form
+            this.reset();
+        });
+
+        // Add animation on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // Observe all cards
+        document.querySelectorAll('.project-card, .cert-card, .blog-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+            observer.observe(card);
+        });
+    </script>
+</body>
+</html>

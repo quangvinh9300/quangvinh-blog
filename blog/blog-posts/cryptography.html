@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mật mã hóa dữ liệu: Bảo vệ thông tin nhạy cảm - Blog Bùi Quang Vinh</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root { --primary: #000; --secondary: #fff; --accent: #00d4ff; --text-dark: #333; --text-light: #666; --bg-light: #f9f9f9; }
+        body { font-family: 'Segoe UI'; line-height: 1.8; color: var(--text-dark); }
+        nav { position: fixed; top: 0; width: 100%; background: rgba(0,0,0,0.95); padding: 1rem 2rem; display: flex; justify-content: space-between; z-index: 1000; }
+        .logo { font-size: 1.5rem; font-weight: bold; color: var(--accent); text-decoration: none; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--secondary); text-decoration: none; font-weight: 500; }
+        .nav-links a:hover { color: var(--accent); }
+        .article-container { max-width: 900px; margin: 0 auto; padding: 80px 2rem 4rem; }
+        .article-header { margin-bottom: 3rem; border-bottom: 3px solid var(--accent); padding-bottom: 2rem; }
+        .article-title { font-size: 2.5rem; color: var(--primary); margin-bottom: 1rem; }
+        .article-meta { display: flex; gap: 2rem; flex-wrap: wrap; color: var(--text-light); font-size: 0.95rem; }
+        .article-tags { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem; }
+        .tag { display: inline-block; background: var(--accent); color: var(--primary); padding: 0.4rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+        .article-content { line-height: 2; }
+        .article-content h2 { font-size: 1.8rem; color: var(--primary); margin: 2rem 0 1rem; border-left: 4px solid var(--accent); padding-left: 1rem; }
+        .article-content h3 { font-size: 1.3rem; color: var(--primary); margin: 1.5rem 0 0.8rem; }
+        .article-content p { margin-bottom: 1.5rem; text-align: justify; }
+        .article-content ul { margin: 1.5rem 0 1.5rem 2rem; }
+        .article-content li { margin-bottom: 0.8rem; }
+        .highlight { background: rgba(0,212,255,0.1); padding: 0.2rem 0.5rem; color: var(--accent); }
+        .info-box { background: rgba(0,212,255,0.1); border-left: 4px solid var(--accent); padding: 1.5rem; margin: 2rem 0; border-radius: 5px; }
+        .article-footer { margin-top: 3rem; padding-top: 2rem; border-top: 2px solid var(--accent); }
+        .author-info { background: var(--bg-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; }
+        .navigation { display: flex; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+        .nav-button { display: inline-block; background: var(--primary); color: var(--secondary); padding: 0.8rem 1.5rem; text-decoration: none; border-radius: 5px; }
+        .nav-button:hover { background: var(--secondary); color: var(--primary); }
+        .nav-button.secondary { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        footer { background: var(--primary); color: var(--secondary); text-align: center; padding: 2rem; margin-top: 4rem; }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="../../index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="../../index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <div class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">🔑 Mật mã hóa dữ liệu: Bảo vệ thông tin nhạy cảm</h1>
+                <img src="../../images/cryptography-topic.svg" alt="Cryptography & Encryption" style="width: 100%; max-width: 500px; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,212,255,0.3);">
+                <div class="article-meta">
+                    <span>📅 01/11/2024</span>
+                    <span>✍️ Bùi Quang Vinh</span>
+                    <span>⏱️ 10 phút đọc</span>
+                </div>
+                <div class="article-tags">
+                    <span class="tag">Cryptography</span>
+                    <span class="tag">Encryption</span>
+                    <span class="tag">Data Protection</span>
+                    <span class="tag">PKI</span>
+                </div>
+            </header>
+
+            <section class="article-content">
+                <h2>Giới thiệu về Mật mã hóa</h2>
+                <p>
+                    <span class="highlight">Mật mã hóa (Cryptography)</span> là một trong những công cụ 
+                    quan trọng nhất để bảo vệ thông tin nhạy cảm khỏi unauthorized access. 
+                    Từ cổ đại, con người đã sử dụng mật mã để gửi các tin nhắn bí mật. Tuy nhiên, 
+                    với sự phát triển của công nghệ máy tính, mật mã hóa hiện đại đã trở thành 
+                    một nền tảng của bảo mật thông tin.
+                </p>
+
+                <p>
+                    Mục tiêu của cryptography là đảm bảo:
+                </p>
+                <ul>
+                    <li><strong>Confidentiality (Bảo mật):</strong> Thông tin chỉ có thể được đọc bởi những người có quyền</li>
+                    <li><strong>Integrity (Tính toàn vẹn):</strong> Thông tin không bị thay đổi mà không được detect</li>
+                    <li><strong>Authentication (Xác thực):</strong> Xác minh danh tính của người gửi</li>
+                    <li><strong>Non-repudiation (Không thể từ chối):</strong> Người gửi không thể phủ nhận đã gửi tin nhắn</li>
+                </ul>
+
+                <h2>Các loại Encryption (Mã hóa)</h2>
+                
+                <h3>Symmetric Encryption (Mã hóa đối xứng)</h3>
+                <p>
+                    Sử dụng cùng một key để mã hóa và giải mã. Nhanh, hiệu quả nhưng có vấn đề 
+                    về trao đổi keys an toàn. Cả người gửi và người nhận cần phải có cùng một key bí mật.
+                </p>
+                
+                <h4>Các thuật toán Symmetric phổ biến:</h4>
+                <ul>
+                    <li><strong>AES (Advanced Encryption Standard):</strong> 128-bit, 192-bit, hoặc 256-bit keys. 
+                    Được coi là chuẩn vàng của mã hóa đối xứng. Được sử dụng rộng rãi trong các ứng dụng</li>
+                    <li><strong>DES (Data Encryption Standard):</strong> 56-bit key, giờ đây được coi là không an toàn</li>
+                    <li><strong>3DES (Triple DES):</strong> Cải tiến của DES, sử dụng ba lần DES</li>
+                    <li><strong>RC4:</strong> Stream cipher, được sử dụng trong SSL/TLS, nhưng giờ đây không nên dùng</li>
+                    <li><strong>Blowfish:</strong> 64-bit block cipher, an toàn nhưng ít được sử dụng</li>
+                </ul>
+
+                <h4>Ưu và nhược điểm của Symmetric Encryption:</h4>
+                <ul>
+                    <li>✅ Rất nhanh, thích hợp cho mã hóa lớn volumes của dữ liệu</li>
+                    <li>✅ Sử dụng ít tài nguyên máy tính</li>
+                    <li>❌ Vấn đề Key Distribution: Làm sao để trao đổi key an toàn?</li>
+                    <li>❌ Không phù hợp cho giao tiếp qua mạng công cộng</li>
+                </ul>
+
+                <h3>Asymmetric Encryption (Mã hóa bất đối xứng)</h3>
+                <p>
+                    Sử dụng cặp public/private keys. Công khai key của mình (public key) để bất kỳ ai có thể mã hóa, 
+                    nhưng chỉ có bạn có private key để giải mã. Giải quyết vấn đề key distribution nhưng chậm hơn.
+                </p>
+
+                <h4>Các thuật toán Asymmetric phổ biến:</h4>
+                <ul>
+                    <li><strong>RSA (Rivest–Shamir–Adleman):</strong> Dựa trên độ khó của phân tích số. 
+                    Key sizes thường từ 1024 đến 4096 bits. Phổ biến nhất hiện nay</li>
+                    <li><strong>ECC (Elliptic Curve Cryptography):</strong> Dựa trên toán học elliptic curves. 
+                    An toàn hơn RSA với key size nhỏ hơn</li>
+                    <li><strong>DSA (Digital Signature Algorithm):</strong> Chủ yếu dùng cho digital signatures</li>
+                    <li><strong>Diffie-Hellman:</strong> Dùng cho key exchange protocol</li>
+                </ul>
+
+                <h4>Ưu và nhược điểm của Asymmetric Encryption:</h4>
+                <ul>
+                    <li>✅ Giải quyết vấn đề key distribution</li>
+                    <li>✅ Cho phép digital signatures</li>
+                    <li>❌ Chậm hơn symmetric encryption, không phù hợp cho mã hóa large data</li>
+                    <li>❌ Tiêu tốn tài nguyên máy tính cao</li>
+                </ul>
+
+                <h2>Hybrid Encryption</h2>
+                <p>
+                    Trong thực tế, asymmetric encryption được sử dụng để mã hóa symmetric keys (symmetric key exchange), 
+                    và sau đó symmetric encryption được sử dụng để mã hóa dữ liệu. 
+                    Điều này kết hợp sự nhanh chóng của symmetric encryption với sự tiện lợi của asymmetric encryption.
+                </p>
+
+                <div class="info-box">
+                    <strong>Hybrid Encryption Flow:</strong><br>
+                    1. Alice tạo một symmetric key (session key)<br>
+                    2. Alice mã hóa session key bằng Bob's public key<br>
+                    3. Alice gửi encrypted session key + encrypted data (mã hóa bằng session key)<br>
+                    4. Bob giải mã session key bằng private key của mình<br>
+                    5. Bob sử dụng session key để giải mã dữ liệu
+                </div>
+
+                <h2>Hash Functions (Hàm Hash)</h2>
+                <p>
+                    Hash function là một hàm one-way chuyển đổi dữ liệu bất kỳ thành một chuỗi ký tự 
+                    có độ dài cố định gọi là "hash digest" hoặc "hash value". Không thể reverse một hash 
+                    để lấy dữ liệu gốc.
+                </p>
+
+                <h4>Tính chất của một good hash function:</h4>
+                <ul>
+                    <li>Deterministic: Cùng input luôn cho cùng output</li>
+                    <li>One-way: Không thể reverse để lấy input từ hash</li>
+                    <li>Collision-resistant: Rất khó tìm hai inputs khác nhau cho cùng hash</li>
+                    <li>Avalanche effect: Thay đổi nhỏ input tạo ra output hoàn toàn khác</li>
+                </ul>
+
+                <h4>Các Hash Functions phổ biến:</h4>
+                <ul>
+                    <li><strong>MD5:</strong> 128-bit output (128-bit = 32 hex characters). 
+                    Giờ đây được coi là không an toàn do collision vulnerabilities</li>
+                    <li><strong>SHA-1 (Secure Hash Algorithm 1):</strong> 160-bit output. 
+                    Được sử dụng rộng rãi nhưng cũng đã bị deprecated</li>
+                    <li><strong>SHA-256:</strong> 256-bit output. Phần của SHA-2 family. 
+                    Khuyên dùng hiện nay</li>
+                    <li><strong>SHA-512:</strong> 512-bit output. Thậm chí an toàn hơn SHA-256</li>
+                    <li><strong>SHA-3:</strong> Thế hệ mới nhất, được công bố năm 2015</li>
+                </ul>
+
+                <h4>Ứng dụng của Hash Functions:</h4>
+                <ul>
+                    <li>✅ Password storage: Lưu hash của password thay vì password gốc</li>
+                    <li>✅ Integrity checking: Kiểm tra xem dữ liệu có bị thay đổi</li>
+                    <li>✅ Digital signatures: Parte của digital signature algorithms</li>
+                    <li>✅ Blockchain: Dùng trong cryptographic chains</li>
+                </ul>
+
+                <h2>Digital Signatures (Chữ ký điện tử)</h2>
+                <p>
+                    Digital signature là một kỹ thuật mã hóa để xác minh danh tính của người gửi 
+                    và đảm bảo tính toàn vẹn của tin nhắn. Sử dụng private key của người gửi để "ký" tin nhắn, 
+                    và bất kỳ ai có public key của người gửi đều có thể xác minh rằng tin nhắn 
+                    thực sự đến từ người gửi và không bị thay đổi.
+                </p>
+
+                <h4>Digital Signature Process:</h4>
+                <ol>
+                    <li>Alice tính hash của tin nhắn</li>
+                    <li>Alice mã hóa hash bằng private key của mình (tạo signature)</li>
+                    <li>Alice gửi tin nhắn + signature</li>
+                    <li>Bob giải mã signature bằng public key của Alice (lấy hash)</li>
+                    <li>Bob tính hash của tin nhắn nhận được</li>
+                    <li>Nếu hai hashes trùng nhau, signature là valid</li>
+                </ol>
+
+                <h2>Certificates & Public Key Infrastructure (PKI)</h2>
+                
+                <h3>Certificates (Chứng chỉ)</h3>
+                <p>
+                    Một certificate là một tài liệu điện tử ràng buộc một public key với một thực thể 
+                    (người, máy chủ, tổ chức) và được ký bởi một trusted authority. 
+                    Nó chứa:
+                </p>
+                <ul>
+                    <li>Subject's public key</li>
+                    <li>Subject's name và information</li>
+                    <li>Issuer's name (CA - Certificate Authority)</li>
+                    <li>Validity period (khi nào certificate hết hạn)</li>
+                    <li>Digital signature của CA</li>
+                </ul>
+
+                <h3>Public Key Infrastructure (PKI)</h3>
+                <p>
+                    PKI là hệ thống quản lý certificates và public keys để xây dựng niềm tin trong giao tiếp điện tử. 
+                    Nó bao gồm:
+                </p>
+                <ul>
+                    <li><strong>Certificate Authority (CA):</strong> Tổ chức ký certificates</li>
+                    <li><strong>Registration Authority (RA):</strong> Xác minh danh tính trước khi CA ký certificates</li>
+                    <li><strong>Certificate Repository:</strong> Nơi lưu trữ certificates</li>
+                    <li><strong>CRL/OCSP:</strong> Services để kiểm tra xem certificate có bị revoked không</li>
+                </ul>
+
+                <h3>Types of Certificates:</h3>
+                <ul>
+                    <li><strong>Self-signed:</strong> Tự ký, không có CA xác thực. Không được tin cậy bởi browsers</li>
+                    <li><strong>CA-signed:</strong> Được ký bởi Certificate Authority đáng tin cậy</li>
+                    <li><strong>Code Signing:</strong> Ký code/software để xác minh danh tính developer</li>
+                    <li><strong>SSL/TLS Certificates:</strong> Bảo mật giao tiếp web (HTTPS)</li>
+                    <li><strong>Client Certificates:</strong> Xác thực clients</li>
+                </ul>
+
+                <h2>SSL/TLS Protocol</h2>
+                <p>
+                    <span class="highlight">SSL/TLS</span> là protocol bảo mật được sử dụng để bảo vệ 
+                    giao tiếp qua internet. Hầu hết các website hiện đại sử dụng HTTPS, 
+                    đó là HTTP + TLS.
+                </p>
+
+                <h3>TLS Handshake Process (4-way handshake):</h3>
+                <ol>
+                    <li><strong>ClientHello:</strong> Client gửi hello message với các cipher suites hỗ trợ</li>
+                    <li><strong>ServerHello:</strong> Server chọn cipher suite, gửi certificate</li>
+                    <li><strong>Client verification:</strong> Client xác minh certificate của server</li>
+                    <li><strong>Pre-Master Secret:</strong> Client gửi pre-master secret (mã hóa bằng server's public key)</li>
+                    <li><strong>Session Key Derivation:</strong> Cả client và server tính session key</li>
+                    <li><strong>Finished:</strong> Cả hai gửi Finished message để xác minh handshake</li>
+                    <li><strong>Encrypted Communication:</strong> Tất cả dữ liệu tiếp theo được mã hóa bằng session key</li>
+                </ol>
+
+                <h2>Blockchain & Cryptography</h2>
+                <p>
+                    Blockchain sử dụng cryptography làm nền tảng của nó. Mỗi block trong blockchain 
+                    chứa hash của block trước đó, tạo ra một chuỗi mã hóa mà không thể bị thay đổi mà không được phát hiện.
+                </p>
+
+                <h3>Các khái niệm cryptography trong blockchain:</h3>
+                <ul>
+                    <li><strong>Cryptographic hash:</strong> Mỗi block có một hash</li>
+                    <li><strong>Digital signatures:</strong> Xác thực transactions</li>
+                    <li><strong>Merkle trees:</strong> Cấu trúc dữ liệu để hash nhiều transactions</li>
+                    <li><strong>Consensus mechanisms:</strong> Proof of Work, Proof of Stake</li>
+                </ul>
+
+                <h2>Modern Cryptography Challenges & Best Practices</h2>
+                
+                <h3>Challenges:</h3>
+                <ul>
+                    <li><strong>Quantum Computing Threat:</strong> Quantum computers có thể break RSA encryption. 
+                    Cần phát triển post-quantum cryptography</li>
+                    <li><strong>Key Management:</strong> Quản lý keys an toàn là thách thức lớn</li>
+                    <li><strong>Side-channel Attacks:</strong> Các tấn công lợi dụng timing, power consumption, v.v.</li>
+                    <li><strong>Backward Compatibility:</strong> Khi upgrade algorithms, cần backward compatibility</li>
+                </ul>
+
+                <h3>Best Practices:</h3>
+                <ul>
+                    <li>🔐 <strong>Use strong key lengths:</strong> 2048-bit RSA minimum, preferably 4096-bit; 256-bit AES</li>
+                    <li>🔑 <strong>Key Management:</strong> Lưu trữ keys an toàn (HSM - Hardware Security Module, 
+                    Cloud Key Vault, hoặc encrypted key stores)</li>
+                    <li>🔄 <strong>Key Rotation:</strong> Thường xuyên rotate keys, không tái sử dụng keys</li>
+                    <li>🧪 <strong>Test encryption/decryption:</strong> Kiểm thử xác minh encryption works correctly</li>
+                    <li>📋 <strong>Maintain key inventory:</strong> Biết bạn có bao nhiêu keys và họ được lưu ở đâu</li>
+                    <li>🚫 <strong>Avoid deprecated algorithms:</strong> Không sử dụng MD5, SHA-1, DES, RC4</li>
+                    <li>🔒 <strong>Use TLS 1.2 hoặc 1.3:</strong> Không sử dụng SSL 3.0 hoặc TLS 1.0</li>
+                    <li>🛡️ <strong>Implement proper authentication:</strong> Mã hóa chỉ là một phần của bảo mật</li>
+                </ul>
+
+                <h2>Cryptographic Algorithms Summary</h2>
+                <table style="width: 100%; border-collapse: collapse; margin: 2rem 0;">
+                    <thead>
+                        <tr style="background-color: #f0f0f0;">
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Loại</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Ví dụ Algorithms</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Key Size</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">Tốc độ</th>
+                            <th style="border: 1px solid #ddd; padding: 1rem; text-align: left;">An toàn</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Symmetric</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">AES, DES, 3DES</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">128-256 bits</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Rất nhanh</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao (AES)</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Asymmetric</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">RSA, ECC, DSA</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">1024-4096 bits</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Chậm</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao</td>
+                        </tr>
+                        <tr>
+                            <td style="border: 1px solid #ddd; padding: 1rem;"><strong>Hash</strong></td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">SHA-256, SHA-512</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">256-512 bits</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Nhanh</td>
+                            <td style="border: 1px solid #ddd; padding: 1rem;">Cao</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h2>Kết luận</h2>
+                <p>
+                    Mật mã hóa là nền tảng của bảo mật thông tin hiện đại. Hiểu biết về các thuật toán, 
+                    protocols, và best practices là quan trọng cho bất kỳ cybersecurity professional nào. 
+                    Dù bạn là một developer, system administrator, hay security analyst, kiến thức về 
+                    cryptography sẽ giúp bạn xây dựng các hệ thống bảo mật hơn. Tuy nhiên, hãy nhớ rằng 
+                    mã hóa chỉ là một phần của bảo mật - nó cần được kết hợp với authentication, authorization, 
+                    auditing, và các biện pháp bảo mật khác để xây dựng một hệ thống bảo mật toàn diện.
+                </p>
+            </section>
+
+            <footer class="article-footer">
+                <div class="author-info">
+                    <h4>👤 Về Tác Giả</h4>
+                    <p><strong>Bùi Quang Vinh</strong> - Cryptography & Data Security Expert</p>
+                </div>
+                <div class="navigation">
+                    <a href="../../blog.html" class="nav-button secondary">← Quay lại Blog</a>
+                    <a href="../../blog.html" class="nav-button">Xem tất cả bài viết →</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+
+    <footer style="margin-top: 4rem;">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../../index.html">Trang Chủ</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../index.html#contact">Liên Hệ</a>
+            </div>
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

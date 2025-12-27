@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blog - Bùi Quang Vinh | Cybersecurity & Networking</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #00d4ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-dark);
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: var(--accent);
+        }
+
+        /* Header */
+        .blog-header {
+            background: linear-gradient(135deg, var(--primary), #1a1a1a);
+            color: var(--secondary);
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            margin-top: 60px;
+        }
+
+        .blog-header h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: slideInDown 0.6s ease;
+        }
+
+        .blog-header p {
+            font-size: 1.2rem;
+            color: var(--accent);
+            animation: slideInUp 0.6s ease;
+        }
+
+        /* Container */
+        .blog-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+        }
+
+        /* Sidebar */
+        .blog-layout {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 3rem;
+        }
+
+        /* Blog Posts */
+        .blog-posts {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .blog-post {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            animation: slideInUp 0.6s ease;
+        }
+
+        .blog-post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0, 212, 255, 0.2);
+            border-left: 5px solid var(--accent);
+        }
+
+        .blog-post-image {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, var(--primary), #1a1a1a);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--secondary);
+            font-size: 4rem;
+        }
+
+        .blog-post-content {
+            padding: 2rem;
+        }
+
+        .blog-post-meta {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+            font-size: 0.9rem;
+        }
+
+        .blog-meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .blog-post-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            transition: color 0.3s ease;
+        }
+
+        .blog-post:hover .blog-post-title {
+            color: var(--accent);
+        }
+
+        .blog-excerpt {
+            color: var(--text-dark);
+            margin-bottom: 1.5rem;
+            line-height: 1.8;
+            font-size: 1rem;
+        }
+
+        .blog-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .blog-tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .read-more {
+            display: inline-block;
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .read-more:hover {
+            color: var(--primary);
+            transform: translateX(5px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .sidebar-widget {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .sidebar-widget h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+        }
+
+        .widget-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+
+        .widget-list a {
+            color: var(--text-dark);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        .widget-list a::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--accent);
+        }
+
+        .widget-list a:hover {
+            color: var(--accent);
+            transform: translateX(5px);
+        }
+
+        .search-box {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .search-box input {
+            flex: 1;
+            padding: 0.6rem;
+            border: 2px solid var(--accent);
+            border-radius: 5px;
+            font-size: 0.9rem;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            box-shadow: 0 0 10px rgba(0, 212, 255, 0.3);
+        }
+
+        .search-box button {
+            padding: 0.6rem 1rem;
+            background: var(--accent);
+            color: var(--primary);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .search-box button:hover {
+            background: var(--primary);
+            color: var(--accent);
+        }
+
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 3rem;
+        }
+
+        .pagination a,
+        .pagination span {
+            padding: 0.6rem 1rem;
+            border: 2px solid var(--accent);
+            border-radius: 5px;
+            text-decoration: none;
+            color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .pagination a:hover {
+            background: var(--accent);
+            color: var(--primary);
+        }
+
+        .pagination .active {
+            background: var(--accent);
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--accent);
+            margin-top: 4rem;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        .footer-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .footer-social a {
+            color: var(--accent);
+            font-size: 1.3rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-social a:hover {
+            color: var(--secondary);
+        }
+
+        /* Animations */
+        @keyframes slideInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .blog-header {
+                padding: 5rem 1rem 3rem;
+            }
+
+            .blog-header h1 {
+                font-size: 2rem;
+            }
+
+            .blog-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .blog-post-image {
+                height: 200px;
+                font-size: 3rem;
+            }
+
+            .blog-post-title {
+                font-size: 1.3rem;
+            }
+
+            .sidebar {
+                order: -1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="index.html">Trang chủ</a></li>
+            <li><a href="index.html#about">Về tôi</a></li>
+            <li><a href="index.html#skills">Kỹ năng</a></li>
+            <li><a href="index.html#projects">Dự án</a></li>
+            <li><a href="blog.html" class="active">Blog</a></li>
+            <li><a href="index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Header -->
+    <div class="blog-header">
+        <h1>📚 Blog & Kiến Thức</h1>
+        <p>Chia sẻ kiến thức về Security, Networking, Automation và Kinh nghiệm</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="blog-container">
+        <div class="blog-layout">
+            <!-- Blog Posts -->
+            <div class="blog-posts">
+                <!-- Post 1 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🔐</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 15/12/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 8 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">XDR là gì? Tầm quan trọng trong bảo mật hiện đại</h2>
+                        <p class="blog-excerpt">
+                            Extended Detection & Response (XDR) là một giải pháp bảo mật toàn diện giúp phát hiện và phản hồi các mối đe dọa tiên tiến. 
+                            Bài viết này sẽ giúp bạn hiểu rõ về XDR, các tính năng chính, so sánh với EDR, và tại sao XDR trở thành xu hướng bảo mật của tương lai.
+                            Chúng ta sẽ đi sâu vào architecture, detection capabilities, incident response workflows, và các best practices để triển khai XDR hiệu quả.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">XDR</span>
+                            <span class="blog-tag">Security</span>
+                            <span class="blog-tag">Threat Detection</span>
+                            <span class="blog-tag">Incident Response</span>
+                        </div>
+                        <a href="blog-posts/xdr-explained.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 2 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🌐</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 10/12/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 10 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Networking Basics: OSI Model và TCP/IP</h2>
+                        <p class="blog-excerpt">
+                            Hiểu biết vững chắc về OSI Model (Open Systems Interconnection) và TCP/IP Protocol Stack là nền tảng quan trọng cho bất kỳ 
+                            network engineer hoặc security specialist nào. Bài viết này giới thiệu chi tiết 7 layers của OSI Model, cách hoạt động của mỗi layer, 
+                            và mối quan hệ với TCP/IP. Chúng ta cũng sẽ thảo luận về protocols ở mỗi layer, packet structure, và cách áp dụng vào security.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Networking</span>
+                            <span class="blog-tag">OSI Model</span>
+                            <span class="blog-tag">TCP/IP</span>
+                            <span class="blog-tag">Protocols</span>
+                        </div>
+                        <a href="blog-posts/networking-basics.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 3 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🔧</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 05/12/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 9 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Tự động hóa bảo mật với n8n: Hướng dẫn từng bước</h2>
+                        <p class="blog-excerpt">
+                            n8n là một công cụ workflow automation mạnh mẽ, cho phép chúng ta xây dựng các automation workflows phức tạp mà không cần viết code. 
+                            Bài viết này hướng dẫn chi tiết cách sử dụng n8n để tự động hóa các tác vụ bảo mật, từ log collection, threat detection, đến incident response. 
+                            Chúng ta sẽ tìm hiểu về nodes, triggers, data mapping, error handling, và các best practices để tối ưu hóa workflows của bạn.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">n8n</span>
+                            <span class="blog-tag">Automation</span>
+                            <span class="blog-tag">Workflow</span>
+                            <span class="blog-tag">Integration</span>
+                        </div>
+                        <a href="blog-posts/n8n-automation.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 4 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">📊</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 28/11/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 12 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Splunk SIEM: Từ cài đặt đến phân tích sự kiện</h2>
+                        <p class="blog-excerpt">
+                            Splunk là một trong những công cụ SIEM (Security Information and Event Management) hàng đầu thế giới, cho phép tập trung hóa 
+                            việc quản lý logs và events từ hàng trăm nguồn khác nhau. Bài viết này cung cấp hướng dẫn toàn diện từ cài đặt, configuration, 
+                            data ingestion, cho đến advanced analytics và threat detection. Chúng ta sẽ thảo luận về SPL (Search Processing Language), 
+                            dashboards, alerts, playbooks, và cách sử dụng Splunk trong SOC thực tế.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Splunk</span>
+                            <span class="blog-tag">SIEM</span>
+                            <span class="blog-tag">Log Analysis</span>
+                            <span class="blog-tag">Security Monitoring</span>
+                        </div>
+                        <a href="blog-posts/splunk-siem.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 5 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🐍</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 20/11/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 11 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Python cho Cybersecurity: Công cụ hữu ích</h2>
+                        <p class="blog-excerpt">
+                            Python là ngôn ngữ lập trình được ưu tiên nhất trong cộng đồng cybersecurity vì tính đơn giản, mạnh mẽ, 
+                            và có thư viện phong phú. Bài viết này hướng dẫn cách sử dụng Python để phát triển các công cụ bảo mật, 
+                            từ port scanning, network analysis, packet manipulation, đến malware analysis. Chúng ta sẽ học về các libraries 
+                            như scapy, requests, paramiko, cryptography, và cách xây dựng các security tools từ đầu.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Python</span>
+                            <span class="blog-tag">Cybersecurity</span>
+                            <span class="blog-tag">Scripting</span>
+                            <span class="blog-tag">Tools Development</span>
+                        </div>
+                        <a href="blog-posts/python-security.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 6 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">💡</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 15/11/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 10 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Kinh nghiệm xây dựng SOC: Những thách thức & giải pháp</h2>
+                        <p class="blog-excerpt">
+                            Xây dựng một Security Operations Center (SOC) là một dự án phức tạp, đòi hỏi kiến thức sâu rộng về technology, 
+                            process, và con người. Bài viết này chia sẻ kinh nghiệm thực tế từ quá trình planning, design, implementation, 
+                            cho đến optimization của SOC. Chúng ta sẽ thảo luận về organizational structure, tool selection, automation strategies, 
+                            talent acquisition, và cách đo lường hiệu quả của SOC thông qua KPIs.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">SOC</span>
+                            <span class="blog-tag">Operations</span>
+                            <span class="blog-tag">Strategy</span>
+                            <span class="blog-tag">Management</span>
+                        </div>
+                        <a href="blog-posts/soc-building.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 7 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🛡️</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 08/11/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 9 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Firewall & Intrusion Detection: Phòng chống tấn công mạng</h2>
+                        <p class="blog-excerpt">
+                            Firewall và Intrusion Detection System (IDS) / Intrusion Prevention System (IPS) là những thành phần quan trọng 
+                            trong phòng tuyến bảo vệ mạng. Bài viết này giải thích cách hoạt động của firewalls (stateful vs stateless), 
+                            sự khác biệt giữa IDS và IPS, các detection methods (signature-based vs anomaly-based), 
+                            và cách cấu hình chúng hiệu quả. Chúng ta cũng sẽ thảo luận về Next-Generation Firewalls (NGFWs) và các best practices.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Firewall</span>
+                            <span class="blog-tag">IDS/IPS</span>
+                            <span class="blog-tag">Network Security</span>
+                            <span class="blog-tag">Threat Prevention</span>
+                        </div>
+                        <a href="blog-posts/firewall-ids.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Post 8 -->
+                <article class="blog-post">
+                    <div class="blog-post-image">🔑</div>
+                    <div class="blog-post-content">
+                        <div class="blog-post-meta">
+                            <span class="blog-meta-item">📅 01/11/2024</span>
+                            <span class="blog-meta-item">✍️ Bùi Quang Vinh</span>
+                            <span class="blog-meta-item">⏱️ 10 phút đọc</span>
+                        </div>
+                        <h2 class="blog-post-title">Mật mã hóa dữ liệu: Bảo vệ thông tin nhạy cảm</h2>
+                        <p class="blog-excerpt">
+                            Mật mã hóa (Cryptography) là một trong những công cụ mạnh mẽ nhất để bảo vệ dữ liệu khỏi unauthorized access. 
+                            Bài viết này giới thiệu các khái niệm cơ bản như symmetric encryption, asymmetric encryption, hash functions, 
+                            digital signatures, certificates, và PKI (Public Key Infrastructure). Chúng ta sẽ thảo luận về các algorithms phổ biến 
+                            (AES, RSA, SHA-256), tầm quan trọng của key management, và cách triển khai cryptography trong ứng dụng và dịch vụ.
+                        </p>
+                        <div class="blog-tags">
+                            <span class="blog-tag">Cryptography</span>
+                            <span class="blog-tag">Encryption</span>
+                            <span class="blog-tag">Data Protection</span>
+                            <span class="blog-tag">PKI</span>
+                        </div>
+                        <a href="blog-posts/cryptography.html" class="read-more">Đọc tiếp →</a>
+                    </div>
+                </article>
+
+                <!-- Pagination -->
+                <div class="pagination">
+                    <span class="active">1</span>
+                    <a href="#">2</a>
+                    <a href="#">3</a>
+                    <a href="#">Tiếp →</a>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <aside class="sidebar">
+                <!-- Search Widget -->
+                <div class="sidebar-widget">
+                    <h3>🔍 Tìm Kiếm</h3>
+                    <div class="search-box">
+                        <input type="text" id="searchInput" placeholder="Tìm bài viết...">
+                        <button onclick="searchPosts()">🔎</button>
+                    </div>
+                </div>
+
+                <!-- Categories Widget -->
+                <div class="sidebar-widget">
+                    <h3>📂 Danh Mục</h3>
+                    <div class="widget-list">
+                        <a href="#">Security (12)</a>
+                        <a href="#">Networking (8)</a>
+                        <a href="#">Automation (6)</a>
+                        <a href="#">Programming (5)</a>
+                        <a href="#">DevOps (4)</a>
+                        <a href="#">Kinh nghiệm (3)</a>
+                    </div>
+                </div>
+
+                <!-- Recent Posts Widget -->
+                <div class="sidebar-widget">
+                    <h3>📰 Bài Viết Mới Nhất</h3>
+                    <div class="widget-list">
+                        <a href="blog-posts/xdr-explained.html">XDR là gì?</a>
+                        <a href="blog-posts/networking-basics.html">OSI Model & TCP/IP</a>
+                        <a href="blog-posts/n8n-automation.html">n8n Automation</a>
+                        <a href="blog-posts/splunk-siem.html">Splunk SIEM</a>
+                        <a href="blog-posts/python-security.html">Python Security</a>
+                    </div>
+                </div>
+
+                <!-- Tags Widget -->
+                <div class="sidebar-widget">
+                    <h3>🏷️ Từ Khóa</h3>
+                    <div class="widget-list">
+                        <a href="#">XDR</a>
+                        <a href="#">SIEM</a>
+                        <a href="#">Python</a>
+                        <a href="#">Networking</a>
+                        <a href="#">Firewall</a>
+                        <a href="#">Automation</a>
+                        <a href="#">Incident Response</a>
+                    </div>
+                </div>
+
+                <!-- Quick Links Widget -->
+                <div class="sidebar-widget">
+                    <h3>🔗 Liên Kết Nhanh</h3>
+                    <div class="widget-list">
+                        <a href="../index.html#home">Trang Chủ</a>
+                        <a href="../index.html#about">Về Tôi</a>
+                        <a href="../index.html#projects">Dự Án</a>
+                        <a href="../index.html#contact">Liên Hệ</a>
+                        <a href="../index.html#certifications">Chứng Chỉ</a>
+                    </div>
+                </div>
+
+                <!-- Subscribe Widget -->
+                <div class="sidebar-widget" style="background: linear-gradient(135deg, var(--primary), #1a1a1a); color: var(--secondary); border-left-color: var(--accent);">
+                    <h3 style="color: var(--secondary); border-color: var(--accent);">📧 Đăng Ký</h3>
+                    <p style="font-size: 0.9rem; margin-bottom: 1rem;">Nhận thông báo khi có bài viết mới.</p>
+                    <div class="search-box">
+                        <input type="email" placeholder="Email của bạn" style="background: rgba(255,255,255,0.1); color: var(--secondary); border-color: var(--accent);">
+                        <button style="background: var(--accent); color: var(--primary);">✓</button>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="index.html">Trang Chủ</a>
+                <a href="index.html#about">Về Tôi</a>
+                <a href="index.html#projects">Dự Án</a>
+                <a href="blog.html">Blog</a>
+                <a href="index.html#contact">Liên Hệ</a>
+            </div>
+
+            <div class="footer-social">
+                <a href="https://facebook.com" title="Facebook">f</a>
+                <a href="https://linkedin.com" title="LinkedIn">in</a>
+                <a href="https://github.com" title="GitHub">gh</a>
+            </div>
+
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved. | Blog Cybersecurity</p>
+        </div>
+    </footer>
+
+    <script>
+        function searchPosts() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const posts = document.querySelectorAll('.blog-post');
+            
+            posts.forEach(post => {
+                const title = post.querySelector('.blog-post-title').textContent.toLowerCase();
+                const excerpt = post.querySelector('.blog-excerpt').textContent.toLowerCase();
+                
+                if (title.includes(searchTerm) || excerpt.includes(searchTerm) || searchTerm === '') {
+                    post.style.display = 'block';
+                } else {
+                    post.style.display = 'none';
+                }
+            });
+        }
+
+        // Search on Enter key
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                searchPosts();
+            }
+        });
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth' });
+                }
+            });
+        });
+    </script>
+</body>
+</html>

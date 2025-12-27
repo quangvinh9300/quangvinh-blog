@@ -1,0 +1,39 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="splunkGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="#0a0e27"/>
+  <rect x="30" y="30" width="120" height="100" rx="8" fill="none" stroke="#00d4ff" stroke-width="2"/>
+  <text x="90" y="55" font-family="Arial, sans-serif" font-size="12" fill="#00d4ff" text-anchor="middle" font-weight="bold">LOGS</text>
+  <line x1="50" y1="70" x2="130" y2="70" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+  <line x1="50" y1="85" x2="130" y2="85" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+  <line x1="50" y1="100" x2="130" y2="100" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+  <path d="M 150 80 L 200 80" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="200" y="30" width="120" height="100" rx="8" fill="url(#splunkGrad)" opacity="0.3"/>
+  <text x="260" y="55" font-family="Arial, sans-serif" font-size="12" fill="#00d4ff" text-anchor="middle" font-weight="bold">SPLUNK</text>
+  <text x="260" y="75" font-family="Arial, sans-serif" font-size="10" fill="#00d4ff" text-anchor="middle">SIEM</text>
+  <text x="260" y="95" font-family="Arial, sans-serif" font-size="10" fill="#00d4ff" text-anchor="middle">Analysis</text>
+  <path d="M 320 80 L 350 80" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <circle cx="370" cy="80" r="12" fill="url(#splunkGrad)"/>
+  <g id="charts">
+    <rect x="50" y="155" width="300" height="80" rx="8" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.7"/>
+    <polyline points="70,200 100,175 130,185 160,160 190,170 220,150 250,165 280,155 310,175" fill="none" stroke="#00d4ff" stroke-width="2"/>
+    <circle cx="70" cy="200" r="3" fill="#00d4ff"/>
+    <circle cx="100" cy="175" r="3" fill="#00d4ff"/>
+    <circle cx="130" cy="185" r="3" fill="#00d4ff"/>
+    <circle cx="160" cy="160" r="3" fill="#00d4ff"/>
+    <circle cx="190" cy="170" r="3" fill="#00d4ff"/>
+    <circle cx="220" cy="150" r="3" fill="#00d4ff"/>
+    <circle cx="250" cy="165" r="3" fill="#00d4ff"/>
+    <circle cx="280" cy="155" r="3" fill="#00d4ff"/>
+    <circle cx="310" cy="175" r="3" fill="#00d4ff"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#00d4ff" />
+    </marker>
+  </defs>
+</svg>

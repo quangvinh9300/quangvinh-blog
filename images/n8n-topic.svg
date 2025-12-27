@@ -1,0 +1,35 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="n8nGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="#0a0e27"/>
+  <g id="workflow">
+    <rect x="40" y="80" width="50" height="50" rx="5" fill="url(#n8nGrad)" opacity="0.8"/>
+    <text x="65" y="112" font-family="Arial, sans-serif" font-size="12" fill="#000" text-anchor="middle" font-weight="bold">START</text>
+    <path d="M 90 105 L 140 105" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <rect x="140" y="80" width="50" height="50" rx="5" fill="none" stroke="#00d4ff" stroke-width="2"/>
+    <text x="165" y="112" font-family="Arial, sans-serif" font-size="12" fill="#00d4ff" text-anchor="middle" font-weight="bold">NODE</text>
+    <path d="M 190 105 L 240 105" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <rect x="240" y="80" width="50" height="50" rx="5" fill="none" stroke="#00d4ff" stroke-width="2"/>
+    <text x="265" y="112" font-family="Arial, sans-serif" font-size="12" fill="#00d4ff" text-anchor="middle" font-weight="bold">LOGIC</text>
+    <path d="M 290 105 L 340 105" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+    <circle cx="365" cy="105" r="10" fill="url(#n8nGrad)"/>
+  </g>
+  <g id="integrations">
+    <text x="200" y="170" font-family="Arial, sans-serif" font-size="14" fill="#00d4ff" text-anchor="middle" font-weight="bold">700+ Integrations</text>
+    <circle cx="80" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="130" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="180" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="230" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="280" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+    <circle cx="330" cy="200" r="8" fill="#00d4ff" opacity="0.6"/>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#00d4ff" />
+    </marker>
+  </defs>
+</svg>

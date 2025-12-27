@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Networking Basics: OSI Model và TCP/IP - Blog Bùi Quang Vinh</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #000;
+            --secondary: #fff;
+            --accent: #00d4ff;
+            --text-dark: #333;
+            --text-light: #666;
+            --bg-light: #f9f9f9;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: var(--text-dark);
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent);
+        }
+
+        .article-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 80px 2rem 4rem;
+        }
+
+        .article-header {
+            margin-bottom: 3rem;
+            border-bottom: 3px solid var(--accent);
+            padding-bottom: 2rem;
+        }
+
+        .article-title {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .article-meta {
+            display: flex;
+            gap: 2rem;
+            flex-wrap: wrap;
+            color: var(--text-light);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .meta-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .article-tags {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-top: 1rem;
+        }
+
+        .tag {
+            display: inline-block;
+            background: var(--accent);
+            color: var(--primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .article-content {
+            line-height: 2;
+        }
+
+        .article-content h2 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            margin-top: 2.5rem;
+            border-left: 4px solid var(--accent);
+            padding-left: 1rem;
+        }
+
+        .article-content h3 {
+            font-size: 1.3rem;
+            color: var(--primary);
+            margin: 1.5rem 0 0.8rem;
+        }
+
+        .article-content p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .article-content ul,
+        .article-content ol {
+            margin: 1.5rem 0 1.5rem 2rem;
+        }
+
+        .article-content li {
+            margin-bottom: 0.8rem;
+        }
+
+        .article-content code {
+            background: var(--bg-light);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: var(--accent);
+            font-family: 'Courier New', monospace;
+        }
+
+        .highlight {
+            background: rgba(0, 212, 255, 0.1);
+            padding: 0.2rem 0.5rem;
+            border-radius: 3px;
+            color: var(--accent);
+        }
+
+        .info-box {
+            background: rgba(0, 212, 255, 0.1);
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 5px;
+        }
+
+        .info-box strong {
+            color: var(--accent);
+        }
+
+        .toc {
+            background: var(--bg-light);
+            border: 2px solid var(--accent);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .toc h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--accent);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+
+        .article-footer {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 2px solid var(--accent);
+        }
+
+        .author-info {
+            background: var(--bg-light);
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+        }
+
+        .author-info h4 {
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-button {
+            display: inline-block;
+            background: var(--primary);
+            color: var(--secondary);
+            padding: 0.8rem 1.5rem;
+            text-decoration: none;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary);
+        }
+
+        .nav-button:hover {
+            background: var(--secondary);
+            color: var(--primary);
+        }
+
+        .nav-button.secondary {
+            background: transparent;
+            color: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .nav-button.secondary:hover {
+            background: var(--primary);
+            color: var(--secondary);
+        }
+
+        footer {
+            background: var(--primary);
+            color: var(--secondary);
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid var(--accent);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent);
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .article-title {
+                font-size: 1.8rem;
+            }
+
+            .navigation {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="../../index.html" class="logo">QV</a>
+        <ul class="nav-links">
+            <li><a href="../../index.html">Trang chủ</a></li>
+            <li><a href="../../index.html#about">Về tôi</a></li>
+            <li><a href="../../blog.html">Blog</a></li>
+            <li><a href="../../index.html#contact">Liên hệ</a></li>
+        </ul>
+    </nav>
+
+    <!-- Article Container -->
+    <div class="article-container">
+        <article>
+            <header class="article-header">
+                <h1 class="article-title">🌐 Networking Basics: OSI Model và TCP/IP</h1>
+                <img src="../../images/networking-topic.svg" alt="OSI Model Layers" style="width: 100%; max-width: 500px; height: auto; margin: 2rem auto; display: block; border-radius: 8px; box-shadow: 0 5px 15px rgba(0,212,255,0.3);">
+                <div class="article-meta">
+                    <span class="meta-item">📅 10/12/2024</span>
+                    <span class="meta-item">✍️ Bùi Quang Vinh</span>
+                    <span class="meta-item">⏱️ 10 phút đọc</span>
+                </div>
+                <div class="article-tags">
+                    <span class="tag">Networking</span>
+                    <span class="tag">OSI Model</span>
+                    <span class="tag">TCP/IP</span>
+                    <span class="tag">Protocols</span>
+                </div>
+            </header>
+
+            <!-- Table of Contents -->
+            <div class="toc">
+                <h3>📑 Mục Lục</h3>
+                <ul>
+                    <li><a href="#introduction">Giới thiệu</a></li>
+                    <li><a href="#osi-model">OSI Model - 7 Layers</a></li>
+                    <li><a href="#osi-details">Chi tiết từng Layer</a></li>
+                    <li><a href="#tcp-ip">TCP/IP Model</a></li>
+                    <li><a href="#protocols">Các Protocols quan trọng</a></li>
+                    <li><a href="#conclusion">Kết luận</a></li>
+                </ul>
+            </div>
+
+            <!-- Article Content -->
+            <section class="article-content">
+                <h2 id="introduction">Giới Thiệu Về Mạng Máy Tính</h2>
+                <p>
+                    <span class="highlight">Networking</span> là nền tảng của mọi hệ thống thông tin và liên lạc hiện đại. 
+                    Từ email, web browsing, video streaming đến các ứng dụng enterprise, tất cả đều dựa vào các giao thức 
+                    và mô hình mạng được thiết kế cẩn thận.
+                </p>
+
+                <p>
+                    Để hiểu rõ cách các máy tính giao tiếp với nhau, chúng ta cần nắm vững hai mô hình quan trọng: 
+                    <span class="highlight">OSI Model (7 layers)</span> và <span class="highlight">TCP/IP Model (4-5 layers)</span>. 
+                    Trong khi OSI Model cung cấp một khung tham chiếu lý thuyết, TCP/IP Model là cơ sở thực tế của Internet hiện đại.
+                </p>
+
+                <div class="info-box">
+                    <strong>📌 Tại sao cần hiểu Networking?</strong><br>
+                    • Network administrators cần quản lý và tối ưu hóa mạng<br>
+                    • Cybersecurity professionals cần phát hiện và phòng chống tấn công mạng<br>
+                    • Software developers cần thiết kế applications có khả năng mạng tốt<br>
+                    • System engineers cần hiểu cơ sở hạ tầng mạng
+                </div>
+
+                <h2 id="osi-model">OSI Model - Mô Hình 7 Lớp</h2>
+                <p>
+                    <span class="highlight">OSI (Open Systems Interconnection) Model</span> được phát triển bởi 
+                    ISO (International Organization for Standardization) vào năm 1984. Đây là một mô hình khái niệm 
+                    mô tả cách thức hoạt động của các hệ thống mạng thông qua 7 lớp (layers) khác nhau. 
+                    Mỗi lớp có chức năng riêng và giao tiếp với các lớp ở trên và dưới nó.
+                </p>
+
+                <div class="info-box" style="background: rgba(0, 212, 255, 0.15); border-left: 4px solid #00d4ff; padding: 1.5rem;">
+                    <strong>💡 Mẹo Nhớ 7 Layers OSI (từ dưới lên):</strong><br>
+                    <strong>P</strong>hysical → <strong>D</strong>ata Link → <strong>N</strong>etwork → 
+                    <strong>T</strong>ransport → <strong>S</strong>ession → <strong>P</strong>resentation → <strong>A</strong>pplication<br>
+                    <br>
+                    Cách nhớ tiếng Anh: "Please Do Not Touch Steve's Pet Alligator"
+                </div>
+
+                <h2 id="layer-details">Chi Tiết Từng Layer của OSI Model</h2>
+
+                <h3>Layer 7 - Application Layer (Lớp Ứng Dụng)</h3>
+                <p>
+                    Đây là lớp cao nhất, nơi người dùng tương tác trực tiếp với các ứng dụng. Layer này cung cấp 
+                    các dịch vụ mạng cho các ứng dụng người dùng.
+                </p>
+                <ul>
+                    <li><strong>Protocols:</strong> HTTP, HTTPS, FTP, SMTP, POP3, IMAP, DNS, Telnet, SSH, SNMP, LDAP</li>
+                    <li><strong>Ví dụ:</strong> Web browsers, email clients, FTP clients, SSH clients</li>
+                    <li><strong>Chức năng chính:</strong> Cung cấp giao diện cho người dùng, quản lý kết nối, xác thực người dùng</li>
+                    <li><strong>PDU (Protocol Data Unit):</strong> Data</li>
+                </ul>
+                <p>
+                    Ví dụ: Khi bạn truy cập một website thông qua HTTP, bạn đang sử dụng Application Layer. 
+                    Browser gửi HTTP request đến server, server trả về HTTP response chứa nội dung trang web.
+                </p>
+
+                <h3>Layer 6 - Presentation Layer (Lớp Trình Bày)</h3>
+                <p>
+                    Lớp này chịu trách nhiệm cho việc chuẩn bị dữ liệu để gửi đi hoặc nhận. Nó thực hiện các công việc 
+                    như mã hóa, nén, và chuyển đổi định dạng dữ liệu.
+                </p>
+                <ul>
+                    <li><strong>Chức năng chính:</strong>
+                        <ul>
+                            <li><strong>Encryption/Decryption:</strong> Mã hóa dữ liệu để bảo mật (SSL/TLS)</li>
+                            <li><strong>Data Compression:</strong> Nén dữ liệu để tiết kiệm băng thông (gzip, JPEG)</li>
+                            <li><strong>Data Translation:</strong> Chuyển đổi định dạng dữ liệu (ASCII ↔ EBCDIC)</li>
+                            <li><strong>Character Set Conversion:</strong> UTF-8, Unicode conversion</li>
+                        </ul>
+                    </li>
+                    <li><strong>Ví dụ:</strong> JPEG, GIF, MPEG, PNG, SSL/TLS encryption</li>
+                    <li><strong>PDU:</strong> Data</li>
+                </ul>
+
+                <h3>Layer 5 - Session Layer (Lớp Phiên)</h3>
+                <p>
+                    Lớp này quản lý các kết nối (sessions) giữa các ứng dụng. Nó có trách nhiệm thiết lập, duy trì, 
+                    và kết thúc các kết nối giữa hai máy.
+                </p>
+                <ul>
+                    <li><strong>Chức năng chính:</strong>
+                        <ul>
+                            <li><strong>Session Establishment:</strong> Thiết lập kết nối</li>
+                            <li><strong>Session Maintenance:</strong> Duy trì kết nối hoạt động</li>
+                            <li><strong>Session Termination:</strong> Chấm dứt kết nối</li>
+                            <li><strong>Dialog Control:</strong> Quản lý full-duplex, half-duplex, simplex communication</li>
+                            <li><strong>Synchronization:</strong> Đặt checkpoint để phục hồi nếu có lỗi</li>
+                        </ul>
+                    </li>
+                    <li><strong>Protocols:</strong> NetBIOS, PPTP, RPC, RTCP</li>
+                    <li><strong>PDU:</strong> Data</li>
+                </ul>
+
+                <h3>Layer 4 - Transport Layer (Lớp Vận Chuyển)</h3>
+                <p>
+                    Đây là một lớp quan trọng, chịu trách nhiệm cho việc vận chuyển dữ liệu từ đầu đến cuối (end-to-end). 
+                    Layer này đảm bảo dữ liệu được gửi đúng, đủ, và đúng thứ tự.
+                </p>
+
+                <div style="margin: 2rem 0; padding: 1.5rem; background: #f0f0f0; border-radius: 8px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">TCP vs UDP</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: var(--accent); color: var(--primary);">
+                            <th style="padding: 1rem; border: 1px solid #ddd;">Tiêu Chí</th>
+                            <th style="padding: 1rem; border: 1px solid #ddd;">TCP</th>
+                            <th style="padding: 1rem; border: 1px solid #ddd;">UDP</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Connection</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Connection-oriented</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Connectionless</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Reliability</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Reliable (guaranteed delivery)</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Unreliable (no guarantee)</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Speed</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Slower (due to overhead)</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Faster (less overhead)</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Ordering</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">In-order delivery</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Out-of-order possible</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Use Cases</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Email, Web, FTP, SSH</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Video, VoIP, Gaming, DNS</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <ul>
+                    <li><strong>Port Numbers:</strong> 0-1023 (well-known), 1024-49151 (registered), 49152-65535 (dynamic)</li>
+                    <li><strong>PDU:</strong> Segment (TCP) hoặc Datagram (UDP)</li>
+                </ul>
+
+                <h3>Layer 3 - Network Layer (Lớp Mạng)</h3>
+                <p>
+                    Lớp mạng chịu trách nhiệm cho việc định tuyến (routing) dữ liệu từ máy nguồn đến máy đích. 
+                    Nó sử dụng IP addresses để xác định đích đến và tìm đường đi tốt nhất.
+                </p>
+                <ul>
+                    <li><strong>Protocols:</strong> IP (IPv4, IPv6), ICMP, IGMP, Routing Protocols (RIP, OSPF, BGP, EIGRP)</li>
+                    <li><strong>Thiết bị:</strong> Router, Layer 3 Switch</li>
+                    <li><strong>Chức năng:</strong> Routing, Logical Addressing (IP addresses), Path Determination</li>
+                    <li><strong>PDU:</strong> Packet</li>
+                </ul>
+
+                <p>
+                    <strong>IPv4 vs IPv6:</strong>
+                </p>
+                <ul>
+                    <li>IPv4: 32-bit address (ví dụ: 192.168.1.1)</li>
+                    <li>IPv6: 128-bit address (ví dụ: 2001:0db8:85a3:0000:0000:8a2e:0370:7334)</li>
+                </ul>
+
+                <h3>Layer 2 - Data Link Layer (Lớp Liên Kết Dữ Liệu)</h3>
+                <p>
+                    Lớp này xử lý việc truyền dữ liệu giữa các thiết bị trong cùng một mạng cục bộ (LAN). 
+                    Nó sử dụng địa chỉ MAC để xác định các thiết bị trên cùng một segment mạng.
+                </p>
+                <ul>
+                    <li><strong>Protocols:</strong> Ethernet, PPP, Frame Relay, HDLC, 802.11 (Wi-Fi), MPLS</li>
+                    <li><strong>Thiết bị:</strong> Switch, Bridge</li>
+                    <li><strong>Chức năng:</strong> Physical Addressing (MAC addresses), Frame formatting, Error Detection</li>
+                    <li><strong>MAC Address:</strong> 48-bit address (ví dụ: AA:BB:CC:DD:EE:FF)</li>
+                    <li><strong>Sublayers:</strong> 
+                        <ul>
+                            <li>LLC (Logical Link Control) - quản lý flow control, error checking</li>
+                            <li>MAC (Media Access Control) - quản lý truy cập đến media vật lý</li>
+                        </ul>
+                    </li>
+                    <li><strong>PDU:</strong> Frame</li>
+                </ul>
+
+                <h3>Layer 1 - Physical Layer (Lớp Vật Lý)</h3>
+                <p>
+                    Đây là lớp thấp nhất, xử lý các tín hiệu điện tử vật lý. Nó chịu trách nhiệm truyền các bit (1 và 0) 
+                    qua các đường dẫn vật lý.
+                </p>
+                <ul>
+                    <li><strong>Média:</strong> 
+                        <ul>
+                            <li>Copper cables: UTP (Unshielded Twisted Pair), STP (Shielded Twisted Pair), Coaxial</li>
+                            <li>Fiber optic: Single-mode, Multi-mode</li>
+                            <li>Wireless: RF (Radio Frequency), Microwave</li>
+                        </ul>
+                    </li>
+                    <li><strong>Thiết bị:</strong> Hubs, Repeaters, Modems, Network Interface Cards (NIC)</li>
+                    <li><strong>Chức năng:</strong> Truyền bits thông qua các đường dẫn vật lý, quản lý signal, noise, attenuation</li>
+                    <li><strong>PDU:</strong> Bit</li>
+                </ul>
+
+                <h2 id="tcp-ip">Mô Hình TCP/IP - 4 Lớp Thực Tế</h2>
+                <p>
+                    <span class="highlight">TCP/IP Model</span> là một mô hình thực tế hơn OSI Model, chỉ có 4-5 lớp, 
+                    và là nền tảng của Internet hiện đại. Nó được sử dụng rộng rãi hơn vì gần gũi với cách hoạt động 
+                    thực tế của mạng.
+                </p>
+
+                <p>
+                    So sánh với OSI Model:
+                </p>
+                <ul>
+                    <li><strong>OSI Model:</strong> 7 lớp, mô hình tham chiếu lý thuyết</li>
+                    <li><strong>TCP/IP Model:</strong> 4-5 lớp, mô hình thực tế được sử dụng rộng rãi</li>
+                </ul>
+
+                <h3>4 Lớp của TCP/IP Model:</h3>
+                <ol>
+                    <li><strong>Application Layer</strong> (HTTP, HTTPS, FTP, SMTP, DNS, SSH, Telnet, SNMP)</li>
+                    <li><strong>Transport Layer</strong> (TCP, UDP, SCTP)</li>
+                    <li><strong>Internet Layer</strong> (IP, ICMP, IGMP, IPsec)</li>
+                    <li><strong>Link Layer</strong> / Network Access Layer (Ethernet, PPP, 802.11, ARP)</li>
+                </ol>
+
+                <div style="margin: 2rem 0; padding: 1.5rem; background: #f0f0f0; border-radius: 8px;">
+                    <h4 style="color: var(--primary); margin-bottom: 1rem;">So Sánh OSI và TCP/IP Model</h4>
+                    <table style="width: 100%; border-collapse: collapse;">
+                        <tr style="background: var(--accent); color: var(--primary);">
+                            <th style="padding: 1rem; border: 1px solid #ddd;">TCP/IP Layer</th>
+                            <th style="padding: 1rem; border: 1px solid #ddd;">OSI Layer(s)</th>
+                            <th style="padding: 1rem; border: 1px solid #ddd;">Protocols Chính</th>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Application</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">7, 6, 5</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">HTTP, HTTPS, FTP, SMTP, DNS, SSH</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Transport</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">4</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">TCP, UDP, SCTP</td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Internet</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">3</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">IP, ICMP, IGMP, IPsec</td>
+                        </tr>
+                        <tr style="background: #f9f9f9;">
+                            <td style="padding: 1rem; border: 1px solid #ddd;"><strong>Link</strong></td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">2, 1</td>
+                            <td style="padding: 1rem; border: 1px solid #ddd;">Ethernet, PPP, ARP, 802.11</td>
+                        </tr>
+                    </table>
+                </div>
+
+                <h2 id="important-protocols">Các Giao Thức Mạng Quan Trọng</h2>
+
+                <h3>🌐 HTTP/HTTPS (HyperText Transfer Protocol)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Application Layer (Layer 7)</li>
+                    <li><strong>HTTP:</strong> Unencrypted, port 80, không an toàn</li>
+                    <li><strong>HTTPS:</strong> Encrypted with SSL/TLS, port 443, an toàn hơn</li>
+                    <li><strong>Đặc điểm:</strong> Stateless - mỗi request độc lập, sử dụng cookies để maintain state</li>
+                    <li><strong>Methods:</strong> GET, POST, PUT, DELETE, HEAD, OPTIONS, PATCH</li>
+                    <li><strong>Status Codes:</strong> 1xx (Info), 2xx (Success), 3xx (Redirect), 4xx (Client Error), 5xx (Server Error)</li>
+                </ul>
+
+                <h3>🔍 DNS (Domain Name System)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Application Layer (Layer 7)</li>
+                    <li><strong>Port:</strong> 53 (UDP cho queries, TCP cho zone transfers)</li>
+                    <li><strong>Chức năng:</strong> Phân giải domain names thành IP addresses (google.com → 142.250.80.46)</li>
+                    <li><strong>Cấu trúc phân cấp:</strong> Root → TLD (Top Level Domain) → Authoritative Nameservers</li>
+                    <li><strong>Record Types:</strong> A (IPv4), AAAA (IPv6), CNAME (Canonical Name), MX (Mail Exchange), TXT, NS, SOA</li>
+                    <li><strong>Caching:</strong> Các DNS responses được cache ở multiple levels để tăng hiệu suất</li>
+                </ul>
+
+                <h3>📧 SMTP/POP3/IMAP (Email Protocols)</h3>
+                <ul>
+                    <li><strong>SMTP (Simple Mail Transfer Protocol):</strong> 
+                        <ul>
+                            <li>Port: 25, 465 (SMTPS), 587</li>
+                            <li>Chức năng: Gửi email từ client đến server</li>
+                        </ul>
+                    </li>
+                    <li><strong>POP3 (Post Office Protocol 3):</strong>
+                        <ul>
+                            <li>Port: 110, 995 (POP3S)</li>
+                            <li>Chức năng: Download email từ server (email bị xóa sau download)</li>
+                        </ul>
+                    </li>
+                    <li><strong>IMAP (Internet Message Access Protocol):</strong>
+                        <ul>
+                            <li>Port: 143, 993 (IMAPS)</li>
+                            <li>Chức năng: Access email trên server (email vẫn lưu trên server)</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>🔐 SSH (Secure Shell)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Application Layer (Layer 7)</li>
+                    <li><strong>Port:</strong> 22</li>
+                    <li><strong>Chức năng:</strong> Secure remote access, command execution, port forwarding</li>
+                    <li><strong>Authentication:</strong> Password hoặc Public Key Authentication</li>
+                    <li><strong>Encryption:</strong> Tất cả dữ liệu được mã hóa</li>
+                </ul>
+
+                <h3>⚙️ FTP (File Transfer Protocol)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Application Layer (Layer 7)</li>
+                    <li><strong>Port:</strong> 21 (control), 20 (data)</li>
+                    <li><strong>Chức năng:</strong> Transfer files giữa client và server</li>
+                    <li><strong>Bảo mật:</strong> Không encrypted, dễ bị intercept</li>
+                    <li><strong>Alternative:</strong> SFTP (SSH File Transfer Protocol) hoặc SCP</li>
+                </ul>
+
+                <h3>📊 ARP (Address Resolution Protocol)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Data Link Layer (Layer 2)</li>
+                    <li><strong>Chức năng:</strong> Chuyển đổi IP addresses sang MAC addresses
+
+                    <li><strong>Hoạt động:</strong> 
+                        <ul>
+                            <li><strong>ARP Request:</strong> "Ai có IP 192.168.1.1?" (broadcast)</li>
+                            <li><strong>ARP Reply:</strong> "Tôi có, MAC của tôi là AA:BB:CC:DD:EE:FF" (unicast)</li>
+                        </ul>
+                    </li>
+                    <li><strong>Security Issue:</strong> ARP Spoofing - attacker fake their MAC address</li>
+                </ul>
+
+                <h3>🔍 ICMP (Internet Control Message Protocol)</h3>
+                <ul>
+                    <li><strong>Layer:</strong> Network Layer (Layer 3)</li>
+                    <li><strong>Chức năng:</strong> Error reporting, diagnostic functions</li>
+                    <li><strong>Tools:</strong> ping (ICMP Echo Request/Reply), tracert/traceroute (TTL exceeded messages)</li>
+                    <li><strong>Message Types:</strong> Echo (8), Echo Reply (0), Unreachable (3), Time Exceeded (11)</li>
+                </ul>
+
+                <h2 id="subnetting">IP Subnetting & CIDR</h2>
+                <p>
+                    <strong>Subnetting</strong> là việc chia một network thành các subnets nhỏ hơn để tối ưu hóa 
+                    địa chỉ IP và quản lý mạng hiệu quả hơn.
+                </p>
+
+                <h3>Subnet Mask - Xác Định Network vs Host</h3>
+                <p>
+                    Subnet mask xác định phần nào của IP address là network address và phần nào là host address.
+                </p>
+                <ul>
+                    <li><strong>Ví dụ:</strong> 192.168.1.0/24
+                        <ul>
+                            <li>Network Address: 192.168.1.0</li>
+                            <li>Subnet Mask: 255.255.255.0</li>
+                            <li>Valid IP Range: 192.168.1.1 - 192.168.1.254</li>
+                            <li>Broadcast Address: 192.168.1.255</li>
+                            <li>Usable Hosts: 254</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3>CIDR (Classless Inter-Domain Routing)</h3>
+                <p>
+                    CIDR Notation đơn giản hóa việc biểu diễn subnets bằng cách chỉ định số bit cho network portion.
+                </p>
+                <ul>
+                    <li>/8 (255.0.0.0) = 16,777,216 addresses (Class A)</li>
+                    <li>/16 (255.255.0.0) = 65,536 addresses (Class B)</li>
+                    <li>/24 (255.255.255.0) = 256 addresses (Class C)</li>
+                    <li>/32 = 1 address (host route)</li>
+                </ul>
+
+                <h3>Private IP Ranges (RFC 1918)</h3>
+                <ul>
+                    <li><strong>Class A:</strong> 10.0.0.0/8 (10.0.0.0 - 10.255.255.255)</li>
+                    <li><strong>Class B:</strong> 172.16.0.0/12 (172.16.0.0 - 172.31.255.255)</li>
+                    <li><strong>Class C:</strong> 192.168.0.0/16 (192.168.0.0 - 192.168.255.255)</li>
+                    <li><strong>Loopback:</strong> 127.0.0.0/8</li>
+                    <li><strong>Link-local:</strong> 169.254.0.0/16</li>
+                </ul>
+
+                <h2 id="network-security">Khía Cạnh Bảo Mật Mạng</h2>
+                <p>
+                    Hiểu biết về mô hình OSI rất quan trọng cho bảo mật mạng. Các cuộc tấn công xảy ra ở các layer khác nhau:
+                </p>
+
+                <h3>Layer 2 (Data Link) Attacks:</h3>
+                <ul>
+                    <li><strong>ARP Spoofing:</strong> Fake MAC addresses để intercept traffic</li>
+                    <li><strong>MAC Flooding:</strong> Overflow switch MAC table to force flooding</li>
+                    <li><strong>VLAN Hopping:</strong> Escape từ một VLAN sang VLAN khác</li>
+                    <li><strong>Spanning Tree Attack:</strong> Manipulate STP to become root bridge</li>
+                </ul>
+
+                <h3>Layer 3 (Network) Attacks:</h3>
+                <ul>
+                    <li><strong>IP Spoofing:</strong> Fake source IP address</li>
+                    <li><strong>DDoS Attacks:</strong> Flood network với packets để gây DoS</li>
+                    <li><strong>ICMP Redirect:</strong> Redirect traffic through attacker machine</li>
+                    <li><strong>Routing Attacks:</strong> Manipulate routing tables</li>
+                </ul>
+
+                <h3>Layer 4 (Transport) Attacks:</h3>
+                <ul>
+                    <li><strong>SYN Flood:</strong> Flood server với SYN packets để gây DoS</li>
+                    <li><strong>UDP Flood:</strong> Gửi UDP packets tới random ports</li>
+                    <li><strong>TCP Reset Attack:</strong> Send RST packet để terminate connections</li>
+                    <li><strong>Port Scanning:</strong> Scan để phát hiện open ports</li>
+                </ul>
+
+                <h3>Layer 7 (Application) Attacks:</h3>
+                <ul>
+                    <li><strong>SQL Injection:</strong> Inject malicious SQL commands</li>
+                    <li><strong>Cross-Site Scripting (XSS):</strong> Inject JavaScript code</li>
+                    <li><strong>HTTP DDoS:</strong> Application-level DoS attacks</li>
+                    <li><strong>Phishing:</strong> Social engineering attacks</li>
+                </ul>
+
+                <h2 id="network-design">Network Design Principles</h2>
+                <p>
+                    Khi thiết kế mạng, cần xem xét các nguyên tắc sau:
+                </p>
+
+                <ul>
+                    <li><strong>Scalability:</strong> Mạng phải có thể phát triển khi tổ chức phát triển</li>
+                    <li><strong>Reliability:</strong> Mạng phải có redundancy và failover capabilities</li>
+                    <li><strong>Security:</strong> Triển khai firewalls, intrusion detection, encryption</li>
+                    <li><strong>Performance:</strong> Tối ưu hóa bandwidth, latency, throughput</li>
+                    <li><strong>Manageability:</strong> Dễ dàng monitor, troubleshoot, update</li>
+                </ul>
+
+                <h2 id="troubleshooting">Network Troubleshooting Tools</h2>
+                <ul>
+                    <li><strong>ping:</strong> Test connectivity (ICMP Echo)</li>
+                    <li><strong>ipconfig/ifconfig:</strong> View network configuration</li>
+                    <li><strong>tracert/traceroute:</strong> Trace route to destination</li>
+                    <li><strong>nslookup/dig:</strong> DNS query tools</li>
+                    <li><strong>netstat:</strong> Display network connections and statistics</li>
+                    <li><strong>arp -a:</strong> Display ARP table</li>
+                    <li><strong>nmap:</strong> Network mapping and port scanning</li>
+                    <li><strong>wireshark:</strong> Packet analysis and sniffing</li>
+                    <li><strong>tcpdump:</strong> Command-line packet analyzer</li>
+                </ul>
+
+                <h2 id="conclusion">Kết Luận</h2>
+                <p>
+                    Mô hình OSI 7 lớp và TCP/IP Model cung cấp framework toàn diện để hiểu cách các mạng hoạt động. 
+                    Mặc dù TCP/IP được sử dụng thực tế hơn trên Internet, nhưng sự hiểu biết về OSI Model 
+                    là nền tảng không thể thiếu cho bất kỳ network administrator, cybersecurity professional, 
+                    hoặc software engineer nào muốn làm việc với mạng.
+                </p>
+
+                <p>
+                    <strong>Những điều học được từ bài viết này:</strong>
+                </p>
+                <ul>
+                    <li>✅ 7 lớp của OSI Model và chức năng của từng lớp</li>
+                    <li>✅ TCP vs UDP - khi nào dùng loại nào</li>
+                    <li>✅ IP addressing, subnetting, CIDR notation</li>
+                    <li>✅ Các giao thức mạng quan trọng (HTTP, DNS, SMTP, SSH, FTP)</li>
+                    <li>✅ Network security threats ở các layer khác nhau</li>
+                    <li>✅ Network troubleshooting tools và techniques</li>
+                </ul>
+
+                <div class="info-box" style="background: rgba(0, 212, 255, 0.15); border-left: 4px solid #00d4ff; margin-top: 2rem;">
+                    <strong>💡 Tiếp Theo:</strong> Hãy tìm hiểu sâu hơn về:
+                    <ul style="margin-top: 1rem;">
+                        <li>Advanced routing protocols (OSPF, BGP)</li>
+                        <li>Network security architecture (firewalls, IDS/IPS)</li>
+                        <li>VPN and tunneling protocols</li>
+                        <li>Cloud networking (AWS, Azure, GCP)</li>
+                        <li>Software-Defined Networking (SDN)</li>
+                    </ul>
+                </div>
+            </section>
+
+            <!-- Article Footer -->
+            <footer class="article-footer">
+                <div class="author-info">
+                    <h4>👤 Về Tác Giả</h4>
+                    <p>
+                        <strong>Bùi Quang Vinh</strong> là một chuyên gia về Cybersecurity và Networking, 
+                        chia sẻ kiến thức qua các bài viết chi tiết trên blog.
+                    </p>
+                </div>
+
+                <div class="navigation">
+                    <a href="../../blog.html" class="nav-button secondary">← Quay lại Blog</a>
+                    <a href="n8n-automation.html" class="nav-button">Bài viết tiếp theo →</a>
+                </div>
+            </footer>
+        </article>
+    </div>
+
+    <!-- Footer -->
+    <footer style="margin-top: 4rem;">
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="../../index.html">Trang Chủ</a>
+                <a href="../../blog.html">Blog</a>
+                <a href="../../index.html#contact">Liên Hệ</a>
+            </div>
+            <p>&copy; 2024 - 2025 Bùi Quang Vinh. All rights reserved.</p>
+        </div>
+    </footer>
+</body>
+</html>

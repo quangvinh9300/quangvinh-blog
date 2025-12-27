@@ -1,0 +1,38 @@
+<svg viewBox="0 0 400 250" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="cryptoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0099cc;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  <rect width="400" height="250" fill="#0a0e27"/>
+  <g id="key-icon">
+    <circle cx="100" cy="80" r="20" fill="url(#cryptoGrad)" opacity="0.7"/>
+    <rect x="105" y="65" width="40" height="12" rx="2" fill="url(#cryptoGrad)" opacity="0.7"/>
+    <circle cx="122" cy="71" r="3" fill="#0a0e27"/>
+    <circle cx="132" cy="71" r="3" fill="#0a0e27"/>
+  </g>
+  <path d="M 140 80 L 180 80" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <rect x="180" y="40" width="100" height="80" rx="8" fill="url(#cryptoGrad)" opacity="0.2" stroke="#00d4ff" stroke-width="2"/>
+  <text x="230" y="75" font-family="Arial, sans-serif" font-size="12" fill="#00d4ff" text-anchor="middle" font-weight="bold">ENCRYPTION</text>
+  <text x="230" y="95" font-family="Arial, sans-serif" font-size="10" fill="#00d4ff" text-anchor="middle">Secure Data</text>
+  <path d="M 280 80 L 320 80" stroke="#00d4ff" stroke-width="2.5" marker-end="url(#arrow)"/>
+  <g id="encrypted-data">
+    <text x="345" y="65" font-family="monospace" font-size="14" fill="#00d4ff" font-weight="bold">🔒</text>
+    <text x="345" y="88" font-family="monospace" font-size="14" fill="#00d4ff" font-weight="bold">🔐</text>
+    <text x="345" y="111" font-family="monospace" font-size="14" fill="#00d4ff" font-weight="bold">🔑</text>
+  </g>
+  <g id="methods">
+    <text x="200" y="155" font-family="Arial, sans-serif" font-size="13" fill="#00d4ff" text-anchor="middle" font-weight="bold">Cryptography Types</text>
+    <rect x="40" y="170" width="320" height="60" rx="5" fill="none" stroke="#00d4ff" stroke-width="1.5" opacity="0.7"/>
+    <text x="60" y="192" font-family="Arial, sans-serif" font-size="11" fill="#00d4ff">Symmetric (AES, DES)</text>
+    <text x="60" y="218" font-family="Arial, sans-serif" font-size="11" fill="#00d4ff">Asymmetric (RSA, ECC)</text>
+    <text x="250" y="192" font-family="Arial, sans-serif" font-size="11" fill="#00d4ff" text-anchor="middle">Hashing (SHA-256)</text>
+    <text x="250" y="218" font-family="Arial, sans-serif" font-size="11" fill="#00d4ff" text-anchor="middle">Digital Signatures</text>
+  </g>
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#00d4ff" />
+    </marker>
+  </defs>
+</svg>
